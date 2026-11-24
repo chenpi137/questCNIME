@@ -2,6 +2,8 @@
 
 <img src="docs/icon.png" width="96" alt="QuestCNIME icon">
 
+仓库：<https://github.com/chenpi137/questCNIME>
+
 一个面向 **Meta Quest 3 / 3S** 的独立中文输入法。键盘布局、按键几何和状态栏参考
 Quest 原生 VrShell 键盘实现；中文输入核心使用 **Rime（librime）+ 雾凇拼音**，
 通过 CyIME 的预编译 JNI 库接入。项目不依赖 VrShell 运行，也不是 Meta 官方产品。
@@ -27,6 +29,11 @@ Quest 原生 VrShell 键盘实现；中文输入核心使用 **Rime（librime）
 - 键盘窗口：`780x355`（状态栏 56dp + 键盘 216dp + 上下 4dp 边距）
 
 ## 快速开始
+
+```bash
+git clone https://github.com/chenpi137/questCNIME.git
+cd questCNIME
+```
 
 ### 1. 环境
 
