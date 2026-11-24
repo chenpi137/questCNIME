@@ -1,0 +1,26 @@
+# Build outputs
+/build/
+/QuestCNIME.apk
+*.apk
+*.idsig
+
+# Signing material (never commit)
+/keystore.jks
+*.jks
+*.keystore
+
+# Prebuilt native libraries are fetched, not committed
+/libs/arm64-v8a/*.so
+/.cache/
+
+# Local research / verification artifacts
+/evidence/
+/refs/
+*.dll
+*.log
+
+# IDE / OS
+.idea/
+*.iml
+.DS_Store
+Thumbs.db

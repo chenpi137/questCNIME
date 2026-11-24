@@ -1,0 +1,238 @@
+# CyIME vocabulary shared with CyIME-Windows.
+---
+name: cyime_terms
+version: "2026-10-01"
+sort: by_weight
+...
+浮窗	fu chuang	10000
+悬浮工具栏	xuan fu gong ju lan	5000
+语音上屏	yu yin shang ping	5000
+自动互联	zi dong hu lian	5000
+候选窗	hou xuan chuang	5000
+候选框	hou xuan kuang	5000
+流式识别	liu shi shi bie	5000
+语音转写	yu yin zhuan xie	5000
+九宫格输入	jiu gong ge shu ru	5000
+数字小键盘	shu zi xiao jian pan	5000
+语言键	yu yan jian	5000
+换行键	huan hang jian	5000
+表情键	biao qing jian	5000
+中英键	zhong ying jian	5000
+上档键	shang dang jian	5000
+大小写键	da xiao xie jian	5000
+逗号键	dou hao jian	5000
+句号键	ju hao jian	5000
+剪贴板键	jian tie ban jian	5000
+收起键	shou qi jian	5000
+全选键	quan xuan jian	5000
+撤销键	che xiao jian	5000
+拼音键	pin yin jian	5000
+手写键	shou xie jian	5000
+地球键	di qiu jian	5000
+搜索键	sou suo jian	5000
+十四键	shi si jian	5000
+悬浮键盘	xuan fu jian pan	5000
+单手键盘	dan shou jian pan	5000
+键盘高度	jian pan gao du	5000
+雫	na	1
+吔屎	ye shi	10
+蚵仔煎	ke zai jian	50
+吔	ye	1
+蚵	ke	1
+喰	can	1
+喰	qi	1
+喰	sun	1
+每个键	mei ge jian	5000
+那个键	na ge jian	5000
+键全拼	jian quan pin	5000
+九键全拼	jiu jian quan pin	5000
+全拼键盘	quan pin jian pan	5000
+笔侧键	bi ce jian	5000
+声纹模型	sheng wen mo xing	5000
+真机演示	zhen ji yan shi	5000
+加权分	jia quan fen	5000
+加权得分	jia quan de fen	5000
+悬浮条	xuan fu tiao	5000
+小悬浮条	xiao xuan fu tiao	5000
+出字	chu zi	5000
+出字速度	chu zi su du	5000
+逐键	zhu jian	5000
+逐键选词	zhu jian xuan ci	5000
+词组模型	ci zu mo xing	5000
+换候选	huan hou xuan	5000
+选候选	xuan hou xuan	5000
+字幕模式	zi mu mo shi	5000
+跨手指	kua shou zhi	5000
+紫薇轴	zi wei zhou	5000
+打首字母	da shou zi mu	5000
+十四键	shi si jian	5000
+布局切换	bu ju qie huan	5000
+按键音效	an jian yin xiao	5000
+平板实测	ping ban shi ce	5000
+脚本模拟	jiao ben mo ni	5000
+邻键纠错	lin jian jiu cuo	5000
+悬浮键盘	xuan fu jian pan	5000
+上角标	shang jiao biao	5000
+下角标	xia jiao biao	5000
+响度归一化	xiang du gui yi hua	5000
+飞桨	fei jiang	5000
+一键粘贴	yi jian zhan tie	5000
+互切	hu qie	5000
+中英互切	zhong ying hu qie	5000
+单按	dan an	5000
+小浮窗	xiao fu chuang	5000
+编辑罗盘	bian ji luo pan	5000
+大写提示	da xie ti shi	5000
+分类词库	fen lei ci ku	5000
+自定义符号	zi ding yi fu hao	5000
+笔画九键	bi hua jiu jian	5000
+左滑	zuo hua	5000
+右滑	you hua	5000
+段首	duan shou	5000
+段尾	duan wei	5000
+删字	shan zi	5000
+混拼	hun pin	5000
+三端	san duan	5000
+打字音	da zi yin	5000
+键盘音	jian pan yin	5000
+跨端	kua duan	5000
+他也会来的	ta ye hui lai de	20000
+帮我拿个快递	bang wo na ge kuai di	20000
+连上了吗	lian shang le ma	20000
+测完了吗	ce wan le ma	3000
+删后台	shan hou tai	5000
+在词库里没有	zai ci ku li mei you	20000
+用得很	yong de hen	100000
+折成	zhe cheng	50000
+折纸船	zhe zhi chuan	3000
+抱猫	bao mao	3000
+咾	lao	50
+咕咾肉	gu lao rou	1000
+菠萝咕咾肉	bo luo gu lao rou	500
+从强到弱	cong qiang dao ruo	5000
+从深到浅	cong shen dao qian	2000
+从快到慢	cong kuai dao man	2000
+从重到轻	cong zhong dao qing	2000
+从短到长	cong duan dao chang	2000
+从长到短	cong chang dao duan	2000
+从新到旧	cong xin dao jiu	2000
+从旧到新	cong jiu dao xin	2000
+从好到坏	cong hao dao huai	2000
+从坏到好	cong huai dao hao	2000
+从冷到热	cong leng dao re	2000
+从热到冷	cong re dao leng	2000
+从后到前	cong hou dao qian	2000
+艳门照	yan men zhao	500
+积食	ji shi	7000
+只见上不见下	zhi jian shang bu jian xia	300
+什么	shen mo	100000
+蛇喰梦子	she can meng zi	2000
+够伤人	gou shang ren	1000
+余票	yu piao	839
+拉群	la qun	3000
+春招	chun zhao	3000
+撸铁	lu tie	3000
+七日世界	qi ri shi jie	3000
+三角洲行动	san jiao zhou xing dong	3000
+不河里	bu he li	3000
+世界是个草台班子	shi jie shi ge cao tai ban zi	3000
+世界计划	shi jie ji hua	3000
+主打陪伴	zhu da pei ban	3000
+二游	er you	3000
+二重螺旋	er chong luo xuan	3000
+人机感	ren ji gan	3000
+人权卡	ren quan ka	3000
+优雅永不过时	you ya yong bu guo shi	3000
+光遇	guang yu	1110
+公主请上车	gong zhu qing shang che	3000
+公主连结	gong zhu lian jie	3000
+功德加一	gong de jia yi	3000
+单抽	dan chou	3000
+南方小土豆	nan fang xiao tu dou	3000
+卡拉彼丘	ka la bi qiu	3000
+原始征途	yuan shi zheng tu	3000
+原生鸿蒙	yuan sheng hong meng	3000
+双影奇境	shuang ying qi jing	3000
+反向旅游	fan xiang lv you	3000
+反向种草	fan xiang zhong cao	3000
+可灵	ke ling	1985
+吃谷	chi gu	3000
+喷射战士	pen she zhan shi	3000
+图生视频	tu sheng shi pin	3000
+城市领航	cheng shi ling hang	3000
+声骸	sheng hai	1515
+多巴胺穿搭	duo ba an chuan da	3000
+好运莲莲	hao yun lian lian	161
+孔乙己文学	kong yi ji wen xue	3000
+宝可梦朱紫	bao ke meng zhu zi	3000
+宝藏博主	bao zang bo zhu	3000
+家人们谁懂啊	jia ren men shui dong a	3000
+尔滨	er bin	3000
+幻塔	huan ta	1660
+库洛游戏	ku luo you xi	3000
+异环	yi huan	3000
+强度党	qiang du dang	3000
+归龙潮	gui long chao	3000
+怪物猎人荒野	guai wu lie ren huang ye	3000
+悦己消费	yue ji xiao fei	3000
+情绪内耗	qing xu nei hao	3000
+情绪消费	qing xu xiao fei	3000
+抽象文化	chou xiang wen hua	3000
+掉大分	diao da fen	3000
+搭子文化	da zi wen hua	3000
+搭子社交	da zi she jiao	3000
+搭子经济	da zi jing ji	3000
+散爆网络	san bao wang luo	3000
+整顿职场	zheng dun zhi chang	3000
+文生图	wen sheng tu	3000
+文生视频	wen sheng shi pin	3000
+断亲	duan qin	3000
+斯普拉遁	si pu la dun	3000
+新梗	xin geng	2699
+旅游搭子	lv you da zi	3000
+无尽冬日	wu jin dong ri	3000
+无语子	wu yu zi	3000
+明日方舟终末地	ming ri fang zhou zhong mo di	3000
+星琼	xing qiong	3000
+星痕共鸣	xing hen gong ming	3000
+智谱清言	zhi pu qing yan	3000
+曼波	man bo	511
+森空岛	sen kong dao	3000
+泰裤辣	tai ku la	1741
+浓人	nong ren	3000
+淡人	dan ren	3000
+清醒消费	qing xing xiao fei	3000
+火影忍者手游	huo ying ren zhe shou you	3000
+爱你老己	ai ni lao ji	3000
+版本之子	ban ben zhi zi	3000
+物华弥新	wu hua mi xin	3000
+电子乞丐	dian zi qi gai	3000
+秘塔搜索	mi ta sou suo	3000
+精神离职	jing shen li zhi	3000
+精致穷	jing zhi qiong	3000
+纳米搜索	na mi sou suo	3000
+终末地	zhong mo di	3000
+美拉德	mei la de	3000
+美拉德穿搭	mei la de chuan da	3000
+老己	lao ji	3000
+老梗	lao geng	3000
+肝度	gan du	856
+脆皮大学生	cui pi da xue sheng	3000
+脆皮年轻人	cui pi nian qing ren	3000
+腾讯元宝	teng xun yuan bao	3000
+舔包	tian bao	3000
+蚌埠住了	beng bu zhu le	506
+谷子经济	gu zi jing ji	3000
+赛博乞丐	sai bo qi gai	3000
+赛博菩萨	sai bo pu sa	3000
+这河里吗	zhe he li ma	3000
+逆水寒手游	ni shui han shou you	3000
+造梗	zao geng	3000
+遗器	yi qi	3000
+金铲铲之战	jin chan chan zhi zhan	3000
+难蚌	nan beng	3000
+集合啦动物森友会	ji he la dong wu sen you hui	3000
+雾锁王国	wu suo wang guo	3000
+鸣潮	ming chao	3000
+鹰角	ying jiao	1759
+鼠鼠我啊	shu shu wo a	3000

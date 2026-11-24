@@ -1,0 +1,6 @@
+# QuestCNIME: 只启用雾凇拼音全拼方案
+patch:
+  schema_list:
+    - schema: rime_ice
+  menu:
+    page_size: 9

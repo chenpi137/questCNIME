@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quest 中文输入法</string>
+    <string name="ime_name">Quest 中文输入法</string>
+    <string name="app_description">独立 Quest 中文输入法：VrShell 同款键盘布局，Rime/雾凇拼音候选，支持中英文、符号与长按变体。</string>
+    <string name="subtype_zh">中文（拼音）</string>
+    <string name="subtype_en">English</string>
+    <string name="hint_zh">拼音输入</string>
+    <string name="hint_en">English</string>
+    <string name="loading_dict">词库加载中…</string>
+    <string name="dict_ready">词库已就绪</string>
+    <string name="settings_title">Quest 中文输入法</string>
+    <string name="settings_body">这是独立安装的中文输入法，键盘布局与 Quest 原生 VrShell 键盘一致，中文候选由 Rime/雾凇拼音核心提供。\n\n首次启动会通过引导页完成：同意协议、启用输入法、初始化词库、选择输入法。\n\n启用步骤：\n1. 打开系统输入法设置，启用“Quest 中文输入法”。\n2. 在输入法选择中切换到本输入法。\n3. 在任意文本框聚焦后即可输入。\n\n按键说明：\n• 地球键：切换中英文。\n• 顶部灰色状态栏：左上角小标签显示拼音，下方显示候选词。\n• 长按字母键：弹出大写/小写/符号选择框，滑动选择后松手上屏。\n• 白色键盘键：切换输入法。\n• 空格：有候选时选第一个候选。\n• !123：符号页。\n• 齿轮：输入法设置。\n• ×：收起键盘。</string>
+    <string name="rime_setup">Rime 核心诊断（高级）</string>
+    <string name="open_ime_settings">打开输入法设置</string>
+    <string name="switch_ime">切换输入法</string>
+    <string name="ime_picker_unavailable">系统未提供输入法选择器，请使用 adb 切换</string>
+    <string name="settings_unavailable">系统未提供输入法设置页，请使用 adb 启用</string>
+
+    <string name="oobe_disclaimer">1. 本项目为个人学习与研究项目，不是 Meta / Oculus 官方产品，与 Meta Platforms, Inc. 无任何隶属、授权或背书关系。\n\n2. 本软件按“现状”提供，不附带任何明示或暗示担保，包括但不限于适销性、特定用途适用性和不侵权担保。安装、启用或使用本软件可能改变系统输入法设置，甚至造成输入异常、数据丢失或其他风险，相关风险由使用者自行承担。\n\n3. 本软件不主动收集、上传输入内容、词库或设备信息；中文输入由本机 Rime 引擎离线处理。当前 APK 未申请网络权限。\n\n4. 使用者应确保使用行为合法合规，不得将本软件用于违法、侵权、恶意攻击或其他不当用途。\n\n5. 本项目仅供个人学习研究，不用于商业用途。如需修改、分发或再发布，请遵守所捆绑开源组件的许可证，尤其是 GPL-3.0。\n\n6. 本软件包含或参考第三方资源。如权利人认为相关内容侵犯其权利，请通过发布渠道联系作者并提供权属证明；核实后将立即删除相关资源或停止分发。</string>
+    <string name="oobe_agreement">1. 许可：在遵守本协议及第三方许可证的前提下，你可以在个人设备上安装并使用本软件。\n\n2. 使用限制：不得移除或篡改版权、许可证声明；不得以官方名义误导他人；不得用于违法或侵权用途。\n\n3. 隐私：本软件不收集个人数据。输入内容仅在本机内存和本地词库中处理；卸载应用后，本地词库等应用数据会随应用数据一并删除。\n\n4. 风险自担：安装、覆盖安装、启用输入法、切换系统输入法等操作由你自行决定并承担风险。\n\n5. 第三方组件：本软件包含 GPL-3.0、BSD-3-Clause、Apache-2.0、MIT 等许可证的开源组件，版权归各自作者所有，详见“开源致谢”。\n\n6. 侵权处理：如你是权利人并认为本软件包含侵权内容，请通过发布渠道联系作者，提供权属证明；确认后立即删除相关内容或停止分发。\n\n7. 协议更新：后续版本可能更新本协议；继续使用即视为接受更新后的协议。\n\n8. 同意：点击“同意并继续”即表示你已阅读、理解并接受以上免责声明与用户协议。</string>
+    <string name="oobe_acknowledgements">• CyIME（https://github.com/Cyletix/CyIME）— GPL-3.0，librime JNI/输入核心集成与预编译库。\n• Rime / librime（https://github.com/rime/librime）— BSD-3-Clause，中文输入引擎。\n• 雾凇拼音 rime-ice（https://github.com/iDvel/rime-ice）— GPL-3.0，拼音方案与词库。\n• OpenCC（https://github.com/BYVoid/OpenCC）— Apache-2.0，简繁转换与词库数据。\n• ONNX Runtime（https://github.com/microsoft/onnxruntime）— MIT，模型推理运行库。\n• Android Open Source Project（https://source.android.com）— Apache-2.0，Android 平台与输入法框架。\n• Quest / VrShell 的布局与交互仅作个人研究参考；Meta、Quest、Oculus 是其权利人的商标，本项目与 Meta 无关联。\n• 按键音回退采样来自 Meta VrShell 资源，仅用于个人研究中的兼容性测试；如权利人要求，将立即移除。\n\n感谢以上项目及所有开源作者。若名单有遗漏或标注有误，请联系作者更正。</string>
+    <string name="oobe_agree_check">我已阅读并同意以上免责声明与用户协议</string>
+    <string name="oobe_agree">同意并继续</string>
+    <string name="oobe_exit">退出</string>
+</resources>

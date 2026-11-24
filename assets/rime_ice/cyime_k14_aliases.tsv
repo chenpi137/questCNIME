@@ -1,0 +1,859 @@
+January	jan
+February	feb
+March	mar
+April	apr
+June	jun
+August	aug
+Sept.	sep
+September	sep
+September	sept
+October	oct
+November	nov
+December	dec
+Monday	mon
+Tuesday	tue
+Wednesday	wed
+Thurs.	thu
+Thursday	thu
+Thursday	thurs
+Friday	fri
+Saturday	sat
+Sunday	sun
+.NET	dotnet
+iPhone 18 Pro	iphone
+iPhone 18 Pro Max	iphone
+iPhone Duo	iphone
+Mac OS X Cheetah	macosx
+Mac OS X Puma	macosx
+Mac OS X Jaguar	macosx
+Mac OS X Panther	macosx
+Mac OS X Tiger	macosx
+Mac OS X Leopard	macosx
+Mac OS X Snow Leopard	macosx
+OS X Lion	osx
+OS X Mountain Lion	osx
+OS X Mavericks	osx
+OS X Yosemite	osx
+OS X El Capitan	osx
+macOS Sierra	macos
+macOS High Sierra	macos
+macOS Mojave	macos
+macOS Catalina	macos
+macOS Big Sur	macos
+macOS Monterey	macos
+macOS Ventura	macos
+macOS Sonoma	macos
+macOS Sequoia	macos
+macOS Tahoe	macos
+macOS Golden Gate	macos
+Windows Me	windows
+Windows XP	windows
+Windows Vista	windows
+Role-Playing Game	rpg
+Attack Damage Carry	adc
+Ability Power Carry	apc
+Gross Domestic Product	gdp
+League of Legends	lol
+Laugh Out Loudly	lol
+Microsoft SQL Server	sqlserver
+Secure Shell	ssh
+International Organization for Standardization	iso
+Request for Comments	rfc
+Internet Engineering Task Force	ietf
+Disc Jockey	dj
+Downloadable content	dlc
+Chief Operating Officer	coo
+Hard disk drive	hdd
+Hybrid drive	hhd
+Solid-state drive	ssd
+Central Processing Unit	cpu
+Graphics Processing Unit	gpu
+Advanced RISC Machine	arm
+Closed-Circuit Television	cctv
+China Central Television	cctv
+Grand Theft Auto	gta
+Grand Theft Auto V	gtav
+Grand Theft Auto VI	gtavi
+automated teller machine	atm
+Counter-Strike: Global Offensive	csgo
+What You See Is What You Get	wysiwyg
+International Data Corporation	idc
+Charge-Coupled Device	ccd
+Cascading Style Sheets	css
+International Ethernet Private Line	iepl
+International Private Leased Circuit	iplc
+uTools	utool
+Object Storage Service	oss
+qBittorrent	qbit
+qBittorrent Enhanced Edition	qee
+qBittorrent Enhanced Edition	qbee
+qBittorrent Enhanced Edition	qbitee
+qBittorrent Enhanced Edition	qbittorrentee
+YAML Ain't Markup Language	yaml
+Tom's Obvious Minimal Language	toml
+Instagram	ig
+Instagram	ins
+Portable Document Format	pdf
+Bayerische Motoren Werke AG	bmw
+Background music	bgm
+Chief Executive Officer	ceo
+Chief Technology Officer	cto
+Chief Financial Officer	cfo
+MacBook Pro	mbp
+MacBook Air	mba
+MacBook Neo	mbn
+Microsoft Access	access
+PowerPoint	ppt
+Microsoft PowerPoint	ppt
+Structured Query Language	sql
+Content Management System	cms
+Apache ECharts	echarts
+Apache Kafka	kafka
+Large Language Model	llm
+Natural Language Processing	nlp
+JavaScript	js
+Joint Photographic Experts Group	jpg
+Joint Photographic Experts Group	jpeg
+Portable Network Graphics	png
+Graphics Interchange Format	gif
+Domain Name System	dns
+Game Boy Advance	gba
+Game Boy Color	gbc
+GNU Compiler Collection	gcc
+Content Delivery Network	cdn
+Peer-to-Peer Content Delivery Network	pcdn
+Extended File Allocation Table	exfat
+HyperText Markup Language	html
+International Business Machines	ibm
+Input Method Editor	ime
+internet protocol	ip
+Operating System	os
+PlistEdit	pliplistedit
+Simple Desktop Display Manager	sddm
+Software Development Kit	sdk
+Secure Sockets Layer	ssl
+Universal Serial Bus	usb
+virtual private network	vpn
+Apple Worldwide Developers Conference	wwdc
+Uniform Resource Locator	url
+Uniform Resource Identifier	uri
+Hypertext Transfer Protocol	http
+Hypertext Transfer Protocol Secure	https
+Bitcoin	btc
+Ethereum	eth
+High Definition Multimedia Interface	hdmi
+Not Safe For Work	nsfw
+Not Suitable For Work	nsfw
+Coordinated Universal Time	utc
+Greenwich Mean Time	gmt
+Autonomous sensory meridian response	asmr
+Create Read Update Delete	crud
+Optical Character Recognition	ocr
+Déjà vu	dejavu
+Digital Millennium Copyright Act	dmca
+Pickup Artists	pua
+Network Attached Storage	nas
+RDF Site Summary	rss
+Really Simple Syndication	rss
+Counter-Strike	cs
+Time-based One-Time Password	totp
+Extensible Markup Language	xml
+eXtensible HyperText Markup Language	xhtml
+Happy Hacking Keyboard	hhkb
+Search Engine Optimization	seo
+Online Certificate Status Protocol	ocsp
+Android Open Source Project	aosp
+General Data Protection Regulation	gdpr
+Objective-C	oc
+GNU General Public License	gnu
+GNU General Public License	gpl
+Frequently Asked Question	faq
+Laugh My Ass Off	lmao
+what the fuck	wtf
+as soon as possible	asap
+PLAYERUNKNOWN'S BATTLEGROUNDS	pubg
+GitHub Flavored Markdown	gfm
+Graphical User Interface	gui
+Virtual private server	vps
+Basic Input/Output System	bios
+AV1 Image File Format	avif
+Microsoft Visual Studio	visualstudio
+Microsoft PowerPoint	powerpoint
+Internet Explorer	ie
+Windows Media Player	mediaplayer
+Visual Studio Code	vscode
+Table of Contents	toc
+Globally Unique Identifier	guid
+Apple File System	apfs
+New Technology File System	ntfs
+Microsoft NTFS	ntfs
+Non-Player Character	npc
+platform as a service	paas
+application Platform as a Service	apaas
+Sport Utility Vehicle	suv
+Unidentified Flying Object	ufo
+Photoshop	ps
+Berkeley Software Distribution	bsd
+North Atlantic Treaty Organization	nato
+National Aeronautics and Space Administration	nasa
+Random-access memory	ram
+Read-only memory	rom
+Adult Video	av
+Video CD	vcd
+Federal Bureau of Investigation	fbi
+CD Projekt	cdpr
+Animation Comics Games	acg
+National Basketball Association	nba
+Chinese Basketball Association	cba
+Hypertext Preprocessor	php
+Internet Control Message Protocol	icmp
+File Transfer Protocol	ftp
+SSH File Transfer Protocol	sftp
+Notepad++	npp
+Internet Message Access Protocol	imap
+Simple Mail Transfer Protocol	smtp
+Service Set Identifier	ssid
+Free and open source software	foss
+Software Freedom Conservancy	sfc
+Java Development Kit	jdk
+Java Runtime Environment	jre
+Java Virtual Machine	jvm
+First In, First Out	fifo
+Last In, First out	lifo
+Neat Download Manager	ndm
+Liquid Crystal Display	lcd
+Asymmetric Digital Subscriber Line	adsl
+Internet Content Provider	icp
+Android application package	apk
+version control system	vcs
+Great Firewall	gfw
+Voice over Internet Protocol	voip
+Voice Over LTE	volte
+Chromium Embedded Framework	cef
+television	tv
+PCI Express	pcie
+Institute of Electrical and Electronics Engineers	ieee
+Application Programming Interface	api
+Do It Yourself	diy
+deoxyribonucleic acid	dna
+ribonucleic acid	rna
+messenger RNA	mrna
+C++	cpp
+Massachusetts Institute of Technology	mit
+GNU Lesser General Public License	lgpl
+Red Hat Enterprise Linux	rhel
+United Kingdom	uk
+United States	us
+The United States of America	usa
+United States Dollar	usd
+Music Television	mtv
+man-in-the-middle	mitm
+International Standard Book Number	isbn
+International Standard Serial Number	issn
+Quality of Service	qos
+DNS over HTTPS	doh
+DNS over HTTPS/3	doh
+DNS over QUIC	doq
+Hong Kong	hk
+Anti-lock Braking System	abs
+attention deficit hyperactivity disorder	adhd
+barbecue	bbq
+Bulletin Board System	bbs
+Arctic Warfare Police	awp
+Command-Line Interface	cli
+Disk Operating System	dos
+Universal Plug and Play	upnp
+denial-of-service attack	dos
+distributed denial-of-service attack	ddos
+Common Vulnerabilities and Exposures	cve
+Common Weakness Enumeration	cwe
+Express Mail Service	ems
+InterPlanetary File System	ipfs
+Dynamic Host Configuration Protocol	dhcp
+Point-to-Point Protocol over Ethernet	pppoe
+Internet Protocol over Ethernet	ipoe
+Virtual Local Area Network	vlan
+Wireless LAN	wlan
+Generative Pre-trained Transformer	gpt
+Language Model for Dialogue Applications	lamda
+Object Relational Mapping	orm
+Key Performance Indicators	kpi
+Amazon Web Services	aws
+Fear of Missing Out	fomo
+Fédération Internationale de Football Association	fifa
+for your information	fyi
+Initial Public Offerings	ipo
+Model-View-Controller	mvc
+Model-View-ViewModel	mvvm
+Non-Governmental Organization	ngo
+Oh My God	omg
+Rich Text Format	rft
+Scalable Vector Graphics	svg
+Apache Subversion	svn
+Transport Layer Security	tls
+User Datagram Protocol	udp
+Transmission Control Protocol	tcp
+User ID	uid
+Union of Soviet Socialist Republics	ussr
+Windows Media Video	wmv
+World War I	wwi
+World War II	wwii
+World War III	wwiii
+PostgreSQL	pgsql
+Procedural Language / PostGres Structured Query Language	plpgsql
+Intelligence quotient	iq
+by the way	btw
+Quick UDP Internet Connections	quic
+Artificial general intelligence	agi
+Universally Unique Identifier	uuid
+Non-Fungible Token	nft
+Braavos Wallet	braavos
+Do Your Own Research	dyor
+too long; didn't read	tldr
+Japanese Role-Playing Game	jrpg
+Large Language Model Meta AI	llama
+AI Generated Content	aigc
+Node Package Manager	npm
+Domain Specific Language	dsl
+Hardware Description Language	hdl
+BitTorrent	bt
+Dungeons & Dragons	dd
+D&D	dnd
+Dungeons & Dragons	dnd
+Language Server Protocol	lsp
+Player versus Player	pvp
+player versus environment	pve
+Software as a service	saas
+Arch User Repository	aur
+Node Version Manager	nvm
+International Monetary Fund	imf
+Integrated Circuit	ic
+Field-Programmable Gate Array	fpga
+Windows Subsystem for Linux	wsl
+Microsoft Visual C++	msvc
+Near Field Communication	nfc
+master boot record	mbr
+Extensible Firmware Interface	efi
+Unified Extensible Firmware Interface	uefi
+complementary metal-oxide-semiconductor	cmos
+object-oriented programming	oop
+integrated development environment	ide
+Wez's Terminal Emulator	wezterm
+International Collegiate Programming Contest	icpc
+Unified Modeling Language	uml
+Joint Test Action Group	jtag
+X光	xguang
+X光片	xguangpian
+X射线	xshexian
+X刀	xdao
+T恤	txu
+T恤衫	txushan
+AD钙奶	adgainai
+UU加速器	uujiasuqi
+Cinity厅	cinityting
+Eul的神圣法杖	euldeshenshengfazhang
+A杖	azhang
+红Buff	hongbuff
+蓝Buff	lanbuff
+老Baby	laobaby
+小Baby	xiaobaby
+艾AA	aiaa
+U盘	upan
+U盾	udun
+B站	bzhan
+V站	vzhan
+P站	pzhan
+大V	dav
+Q币	qbi
+QQ号	qqhao
+QQ号码	qqhaoma
+QQ空间	qqkongjian
+QQ群	qqqun
+QQ邮箱	qqyouxiang
+QQ音乐	qqyinyue
+QQ拼音	qqpinyin
+QQ会员	qqhuiyuan
+QQ好友	qqhaoyou
+QQ输入法	qqshurufa
+QQ游戏	qqyouxi
+QQ游戏大厅	qqyouxidating
+QQ飞车	qqfeiche
+QQ三国	qqsanguo
+QQ音速	qqyinsu
+QQ秀	qqxiu
+QQ堂	qqtang
+Dock栏	docklan
+阿Q精神	aqjingshen
+Win版	winban
+Win版本	winbanben
+Windows版	windowsban
+Windows版本	windowsbanben
+Mac版	macban
+Mac版本	macbanben
+macOS版	macosban
+macOS版本	macosbanben
+iOS版	iosban
+iOS版本	iosbanben
+Android版	androidban
+Android版本	androidbanben
+Web版	webban
+Web版本	webbanben
+PC端	pcduan
+Win端	winduan
+Windows端	windowsduan
+Mac端	macduan
+macOS端	macosduan
+Web端	webduan
+iOS端	iosduan
+Android端	androidduan
+e招贷	ezhaodai
+G胖	gpang
+Up主	upzhu
+BOSS直聘	bosszhipin
+P社	pshe
+V社	vshe
+Go语言	goyuyan
+Go圣经	goshengjing
+Go程	gocheng
+维生素A	weishengsua
+维生素B	weishengsub
+维生素C	weishengsuc
+维生素D	weishengsud
+维生素E	weishengsue
+维生素K	weishengsuk
+维A	weia
+维B	weib
+维C	weic
+维D	weid
+维E	weie
+维K	weik
+维A酸	weiasuan
+异维A酸	yiweiasuan
+维E乳	weieru
+维生素E乳	weishengsueru
+阿Q	aq
+阿Q正传	aqzhengzhuan
+逗B	doub
+哆啦A梦	duolaameng
+二B	erb
+卡拉OK	kalaok
+牛B	niub
+三K党	sankdang
+傻B	shab
+傻X	shax
+智能ABC	zhinengabc
+智能ABC双拼	zhinengabcshuangpin
+智能ABC双拼方案	zhinengabcshuangpinfangan
+智能ABC输入法	zhinengabcshurufa
+装B	zhuangb
+A股	agu
+B股	bgu
+H股	hgu
+N股	ngu
+S股	sgu
+A盘	apan
+A片	apian
+AA制	aazhi
+ATM机	atmji
+B超	bchao
+B型超声波	bxingchaoshengbo
+B淋巴细胞	blinbaxibao
+B级片	bjipian
+B盘	bpan
+B细胞	bxibao
+C盘	cpan
+C语言	cyuyan
+R语言	ryuyan
+D盘	dpan
+E盘	epan
+F盘	fpan
+G点	gdian
+G盘	gpan
+IP地址	ipdizhi
+IP电话	ipdianhua
+IP卡	ipka
+J盘	jpan
+K宝	kbao
+K粉	kfen
+K歌	kge
+K歌王	kgewang
+K歌之王	kgezhiwang
+K金	kjin
+POS机	posji
+SIM卡	simka
+T淋巴细胞	tlinbaxibao
+T细胞	txibao
+T型台	txingtai
+S形	sxing
+U形	uxing
+U形管	uxingguan
+U型锁	uxingsuo
+UIM卡	uimka
+USIM卡	usimka
+X染色体	xranseti
+Y染色体	yranseti
+Beta版	betaban
+Beta版本	betabanben
+AV女优	avnvyou
+X档案	xdangan
+X战警	xzhanjing
+X教授	xjiaoshou
+YY语音	yyyuyin
+A4纸	asizhi
+A4腰	asiyao
+N多	nduo
+N多个	nduoge
+N多人	nduoren
+N次	nci
+N遍	nbian
+蒙奇·D·路飞	mengqidlufei
+蒙奇·D·龙	mengqidlong
+哥尔·D·罗杰	geerdluojie
+马歇尔·D·蒂奇	maxieerddiqi
+蒙奇·D·卡普	mengqidkapu
+波特卡斯·D·艾斯	botekasidaisi
+特拉法尔加·D·瓦铁尔·罗	telafaerjiadwatieerluo
+X·德雷克	xdeleike
+D之国	dzhiguo
+D之一族	dzhiyizu
+周刊少年Jump	zhoukanshaonianjump
+藤子·F·不二雄	tengzifbuerxiong
+藤子不二雄A	tengzibuerxionga
+我叫MT	wojiaomt
+谜拟Q	miniq
+多边兽Z	duobianshouz
+PC版	pcban
+PC版本	pcbanben
+A塔	ata
+平A	pinga
+C罗	cluo
+IE浏览器	ieliulanqi
+A壳	ake
+B壳	bke
+C壳	cke
+D壳	dke
+A面	amian
+B面	bmian
+C面	cmian
+D面	dmian
+Server酱	serverjiang
+P图	ptu
+P个图	pgetu
+P一下	pyixia
+芭比Q	babiq
+芭比Q了	babiqle
+PIN码	pinma
+PUK码	pukma
+关底BOSS	guandiboss
+ASCII码	asciima
+江南Style	jiangnanstyle
+头文字D	touwenzid
+三无Marblue	sanwumarblue
+A罩杯	azhaobei
+B罩杯	bzhaobei
+C罩杯	czhaobei
+D罩杯	dzhaobei
+E罩杯	ezhaobei
+F罩杯	fzhaobei
+G罩杯	gzhaobei
+H罩杯	hzhaobei
+A罩	azhao
+B罩	bzhao
+C罩	czhao
+D罩	dzhao
+E罩	ezhao
+F罩	fzhao
+G罩	gzhao
+H罩	hzhao
+A杯	abei
+B杯	bbei
+C杯	cbei
+D杯	dbei
+E杯	ebei
+F杯	fbei
+G杯	gbei
+H杯	hbei
+TV版	tvban
+TV版本	tvbanben
+芒果TV	mangguotv
+V字仇杀队	vzichoushadui
+V怪客	vguaike
+V煞	vsha
+Q弹	qtan
+Steam云	steamyun
+M系列	mxilie
+阿Sir	asir
+Pro版	proban
+Pro版本	probanben
+Lite版	liteban
+Lite版本	litebanben
+Papi酱	papijiang
+MAC地址	macdizhi
+DNS劫持	dnsjiechi
+DNS污染	dnswuran
+腾讯QQ	tengxunqq
+公网IP	gongwangip
+Web开发	webkaifa
+Switch版	switchban
+Switch版本	switchbanben
+A型血	axingxue
+A血型	axuexing
+B型血	bxingxue
+B血型	bxuexing
+AB型	abxing
+AB型血	abxingxue
+AB血型	abxuexing
+O型	oxing
+O型血	oxingxue
+O血型	oxuexing
+ABO血型系统	aboxuexingxitong
+Rh阳性血	rhyangxingxue
+Rh阳性血型	rhyangxingxuexing
+Rh阴性血	rhyinxingxue
+Rh阴性血型	rhyinxingxuexing
+Rh血型系统	rhxuexingxitong
+IT界	itjie
+Fn键	fnjian
+Cmd键	cmdjian
+Command键	commandjian
+Ctrl键	ctrljian
+Control键	controljian
+Opt键	optjian
+Option键	optionjian
+Shift键	shiftjian
+Tab键	tabjian
+Caps键	capsjian
+CapsLock键	capslockjian
+Return键	returnjian
+Enter键	enterjian
+Space键	spacejian
+Backspace键	backspacejian
+Del键	deljian
+Delete键	deletejian
+Esc键	escjian
+Eject键	ejectjian
+ICP备案	icpbeian
+啥bug	shabug
+有bug	youbug
+没bug	meibug
+没有bug	meiyoubug
+卡bug	kabug
+提bug	tibug
+写bug	xiebug
+改bug	gaibug
+查bug	chabug
+找bug	zhaobug
+J.K.罗琳	jkluolin
+J.R.R.托尔金	jrrtuoerjin
+乔治·R.R.马丁	qiaozhirrmading
+T.S.艾略特	tsailvete
+互fo	hufo
+减CD	jiancd
+随身Wi-Fi	suishenwifi
+TG群	tgqun
+Telegram群	telegramqun
+Wi-Fi密码	wifimima
+pH值	phzhi
+PN结	pnjie
+P型半导体	pxingbandaoti
+N型半导体	nxingbandaoti
+G谱号	gpuhao
+F谱号	fpuhao
+C谱号	cpuhao
+A级	aji
+B级	bji
+C级	cji
+D级	dji
+S级	sji
+拍CT	paict
+CT检查	ctjiancha
+CNC加工	cncjiagong
+DNA检测	dnajiance
+DoS攻击	dosgongji
+DDoS攻击	ddosgongji
+PVC管	pvcguan
+N卡	nka
+A卡	aka
+M码	mma
+S码	sma
+L码	lma
+Q我	qwo
+R级	rji
+A区	aqu
+B区	bqu
+C区	cqu
+D区	dqu
+E区	equ
+F区	fqu
+A组	azu
+B组	bzu
+C组	czu
+D组	dzu
+E组	ezu
+F组	fzu
+B哥	bge
+Q版	qban
+A班	aban
+B班	bban
+C班	cban
+D班	dban
+老K	laok
+加Q	jiaq
+加QQ	jiaqq
+A座	azuo
+B座	bzuo
+C座	czuo
+D座	dzuo
+E座	ezuo
+F座	fzuo
+H版	hban
+A口	akou
+B口	bkou
+C口	ckou
+D口	dkou
+E口	ekou
+F口	fkou
+A出口	achukou
+B出口	bchukou
+C出口	cchukou
+D出口	dchukou
+E出口	echukou
+F出口	fchukou
+A楼	alou
+B楼	blou
+C楼	clou
+D楼	dlou
+E楼	elou
+F楼	flou
+A型号	axinghao
+B型号	bxinghao
+C型号	cxinghao
+D型号	dxinghao
+E型号	exinghao
+F型号	fxinghao
+A型	axing
+B型	bxing
+C型	cxing
+D型	dxing
+E型	exing
+F型	fxing
+A款	akuan
+B款	bkuan
+C款	ckuan
+D款	dkuan
+E款	ekuan
+F款	fkuan
+A栋	adong
+B栋	bdong
+C栋	cdong
+D栋	ddong
+E栋	edong
+F栋	fdong
+X轴	xzhou
+Y轴	yzhou
+Z轴	zzhou
+V领	vling
+V字领	vziling
+V字形	vzixing
+IT业	itye
+IT行业	ithangye
+K线	kxian
+K线图	kxiantu
+日K线	rikxian
+周K线	zhoukxian
+月K线	yuekxian
+T台	ttai
+TF卡	tfka
+SD卡	sdka
+N年	nnian
+A点	adian
+B点	bdian
+A屏	aping
+BB机	bbji
+BP机	bpji
+做B超	zuobchao
+DJ版	djban
+唱K	changk
+PK赛	pksai
+A和B	aheb
+X和Y	xhey
+查IP	chaip
+封IP	fengip
+换IP	huanip
+VIP卡	vipka
+VIP会员	viphuiyuan
+AAA级	aaaji
+第N次	dinci
+发EMS	faems
+DVD版	dvdban
+USB线	usbxian
+USB口	usbkou
+USB接口	usbjiekou
+lambda演算	lambdayansuan
+nabla算子	nablasuanzi
+i次方	icifang
+i次幂	icimi
+n次方	ncifang
+n次幂	ncimi
+p进数	pjinshu
+p进数域	pjinshuyu
+Z变换	zbianhuan
+逆Z变换	nizbianhuan
+Z逆变换	znibianhuan
+单边Z变换	danbianzbianhuan
+双边Z变换	shuangbianzbianhuan
+Ⅰ型错误	yixingcuowu
+Ⅱ型错误	erxingcuowu
+P波	pbo
+S波	sbo
+S曲线	squxian
+DJ舞曲	djwuqu
+充Q币	chongqbi
+Chromium系	chromiumxi
+Chrome系	chromexi
+4S店	sisdian
+TF版	tfban
+TF版本	tfbanben
+人均GDP	renjungdp
+V8引擎	vbayinqing
+4A级	siaji
+5A级	wuaji
+2G网络	ergwangluo
+3G网络	sangwangluo
+4G网络	sigwangluo
+5G网络	wugwangluo
+3G流量	sangliuliang
+4G流量	sigliuliang
+5G流量	wugliuliang
+3D打印	sanddayin
+2D电影	erddianying
+3D电影	sanddianying
+3C认证	sancrenzheng
+2B铅笔	erbqianbi
+HB铅笔	hbqianbi
+AA吧	aaba
+Big胆	bigdan
+O不OK	obuok
+OK啊	oka
+OK啦	okla
+OK了	okle
+OK了吗	oklema
+OK吗	okma
+OK嘛	okma
+OK么	okme
+OK呀	okya
+OK不	okbu
+不OK	buok
+很OK	henok
+就OK	jiuok
+我OK啊	wooka
+开party	kaiparty
+立Flag	liflag
+喊cut	hancut
+炒CP	chaocp
+嗑CP	kecp
+VIP中P	vipzhongp
+city不city	citybucity
+打call	dacall
+hold住	holdzhu
+AI漫剧	aimanju

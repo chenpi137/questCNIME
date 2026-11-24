@@ -1,0 +1,32 @@
+schema:
+  schema_id: cyime_pause_14jian
+  name: 14键停顿纠错索引
+  version: '1'
+translator:
+  dictionary: rime_ice
+  prism: cyime_pause_14jian
+  enable_user_dict: false
+speller:
+  alphabet: QETUOADGJZCBlm
+  delimiter: " '"
+  algebra:
+    - erase/^[A-Z]$/
+    - xlit/qwertyuiopasdfghjkzxcvbn/QQEETTUUOOAADDGGJJZZCCBB/
+    - fuzz/^([A-Zlm]{0})[A-Zlm]([A-Zlm]+)$/~$1$2/
+    - fuzz/^([A-Zlm]{1})[A-Zlm]([A-Zlm]*)$/~$1$2/
+    - fuzz/^([A-Zlm]{2})[A-Zlm]([A-Zlm]*)$/~$1$2/
+    - fuzz/^([A-Zlm]{3})[A-Zlm]([A-Zlm]*)$/~$1$2/
+    - fuzz/^([A-Zlm]{4})[A-Zlm]([A-Zlm]*)$/~$1$2/
+    - fuzz/^([A-Zlm]{5})[A-Zlm]([A-Zlm]*)$/~$1$2/
+    - fuzz/^([A-Zlm]{0})([A-Zlm])([A-Zlm]*)$/~$1$2$2$3/
+    - fuzz/^([A-Zlm]{1})([A-Zlm])([A-Zlm]*)$/~$1$2$2$3/
+    - fuzz/^([A-Zlm]{2})([A-Zlm])([A-Zlm]*)$/~$1$2$2$3/
+    - fuzz/^([A-Zlm]{3})([A-Zlm])([A-Zlm]*)$/~$1$2$2$3/
+    - fuzz/^([A-Zlm]{4})([A-Zlm])([A-Zlm]*)$/~$1$2$2$3/
+    - fuzz/^([A-Zlm]{5})([A-Zlm])([A-Zlm]*)$/~$1$2$2$3/
+    - fuzz/^([A-Zlm]{0})([A-Zlm])([A-Zlm])([A-Zlm]*)$/~$1$3$2$4/
+    - fuzz/^([A-Zlm]{1})([A-Zlm])([A-Zlm])([A-Zlm]*)$/~$1$3$2$4/
+    - fuzz/^([A-Zlm]{2})([A-Zlm])([A-Zlm])([A-Zlm]*)$/~$1$3$2$4/
+    - fuzz/^([A-Zlm]{3})([A-Zlm])([A-Zlm])([A-Zlm]*)$/~$1$3$2$4/
+    - fuzz/^([A-Zlm]{4})([A-Zlm])([A-Zlm])([A-Zlm]*)$/~$1$3$2$4/
+    - xform/^~//

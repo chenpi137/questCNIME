@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="key_width">48.0dip</dimen>
+    <dimen name="key_height">48.0dip</dimen>
+    <dimen name="key_gap">8.0dip</dimen>
+    <dimen name="key_radius">8.0dip</dimen>
+    <dimen name="key_radius_outer">16.0dip</dimen>
+    <dimen name="keyboard_padding">8.0dip</dimen>
+    <dimen name="readout_height">52.0dip</dimen>
+    <dimen name="suggestion_height">48.0dip</dimen>
+    <dimen name="suggestion_margin">8.0dip</dimen>
+    <dimen name="key_text_size">18.0sp</dimen>
+    <dimen name="key_sub_text_size">10.0sp</dimen>
+    <dimen name="candidate_text_size">18.0sp</dimen>
+</resources>

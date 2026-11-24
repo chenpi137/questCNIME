@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="keyWidth" format="string|dimension" />
+    <attr name="keyHeight" format="string|dimension" />
+    <attr name="horizontalGap" format="string|dimension" />
+    <attr name="verticalGap" format="string|dimension" />
+    <attr name="keyTextSize" format="string|dimension" />
+    <attr name="keySubTextSize" format="string|dimension" />
+    <attr name="keyTextColor" format="color|reference" />
+    <attr name="keyBackground" format="reference" />
+    <attr name="popupLayout" format="reference" />
+    <attr name="ime" format="string" />
+
+    <attr name="keyLabel" format="string" />
+    <attr name="keyOutputText" format="string" />
+    <attr name="shiftKeyLabel" format="string" />
+    <attr name="shiftKeyOutputText" format="string" />
+    <attr name="keyAltLabel" format="string" />
+    <attr name="keyIcon" format="reference" />
+    <attr name="shiftKeyIcon" format="reference" />
+    <attr name="capsLockIcon" format="reference" />
+    <attr name="codes" format="string" />
+    <attr name="keyEdgeFlags" format="string" />
+    <attr name="isRepeatable" format="boolean" />
+    <attr name="keyboard" format="reference" />
+    <attr name="textSize" format="string|dimension" />
+    <attr name="textColor" format="color|reference" />
+
+    <declare-styleable name="VrKeyboard">
+        <attr name="keyWidth" />
+        <attr name="keyHeight" />
+        <attr name="horizontalGap" />
+        <attr name="verticalGap" />
+        <attr name="keyTextSize" />
+        <attr name="keySubTextSize" />
+        <attr name="keyTextColor" />
+        <attr name="keyBackground" />
+        <attr name="popupLayout" />
+        <attr name="ime" />
+    </declare-styleable>
+
+    <declare-styleable name="VrKey">
+        <attr name="keyLabel" />
+        <attr name="keyOutputText" />
+        <attr name="shiftKeyLabel" />
+        <attr name="shiftKeyOutputText" />
+        <attr name="keyAltLabel" />
+        <attr name="keyIcon" />
+        <attr name="shiftKeyIcon" />
+        <attr name="capsLockIcon" />
+        <attr name="codes" />
+        <attr name="keyEdgeFlags" />
+        <attr name="isRepeatable" />
+        <attr name="keyWidth" />
+        <attr name="keyHeight" />
+        <attr name="horizontalGap" />
+        <attr name="keyBackground" />
+        <attr name="keyboard" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+    </declare-styleable>
+</resources>

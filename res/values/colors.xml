@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="panel_bg">#FF1C1C1E</color>
+    <color name="icon_bg">#FF1C1C1E</color>
+    <color name="panel_stroke">#FF3A3A3C</color>
+    <color name="key_primary">#FF333333</color>
+    <color name="key_secondary">#FF2A2A2A</color>
+    <color name="key_pressed">#FF4A4A4A</color>
+    <color name="key_hover">#FF3F3F3F</color>
+    <color name="key_accent">#FFF2F2F2</color>
+    <color name="key_accent_pressed">#FFDADADA</color>
+    <color name="key_text">#FFF2F2F2</color>
+    <color name="key_text_alt">#FFAAAAAA</color>
+    <color name="key_text_disabled">#FF888888</color>
+    <color name="accent">#FF6699FF</color>
+    <color name="readout_bg">#FF2B2B2B</color>
+    <color name="readout_field">#FF303032</color>
+    <color name="candidate_pressed">#33FFFFFF</color>
+    <color name="transparent">#00000000</color>
+</resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 复刻 VrShell res/xml/text_default_sym2.xml（第二符号页） -->
+<Keyboard xmlns:custom="http://schemas.android.com/apk/res-auto"
+    custom:ime="simple"
+    custom:keyWidth="48.0dip"
+    custom:keyHeight="48.0dip"
+    custom:horizontalGap="8.0dip"
+    custom:verticalGap="8.0dip"
+    custom:keyTextSize="18.0sp"
+    custom:keySubTextSize="10.0sp"
+    custom:keyTextColor="@color/key_text"
+    custom:keyBackground="@drawable/key_bg_secondary">
+
+    <Row>
+        <Key custom:keyBackground="@drawable/key_bg_top_left"
+            custom:keyLabel="~" custom:keyOutputText="~" />
+        <Key custom:keyLabel="`" custom:keyOutputText="`" />
+        <Key custom:keyLabel="·" custom:keyOutputText="·" />
+        <Key custom:keyLabel="•" custom:keyOutputText="•" />
+        <Key custom:keyLabel="√" custom:keyOutputText="√" />
+        <Key custom:keyLabel="π" custom:keyOutputText="π"
+            custom:shiftKeyLabel="Π" custom:shiftKeyOutputText="Π" />
+        <Key custom:keyLabel="÷" custom:keyOutputText="÷" />
+        <Key custom:keyLabel="×" custom:keyOutputText="×" />
+        <Key custom:keyLabel="¶" custom:keyOutputText="¶" />
+        <Key custom:keyLabel="∆" custom:keyOutputText="∆" />
+        <Key custom:keyBackground="@drawable/key_bg_top_right"
+            custom:codes="-5" custom:isRepeatable="true"
+            custom:keyIcon="@drawable/ic_keyboard_back_outline_24" />
+    </Row>
+
+    <Row>
+        <Key custom:horizontalGap="19.0dip"
+            custom:keyLabel="£" custom:keyOutputText="£" />
+        <Key custom:keyLabel="¢" custom:keyOutputText="¢" />
+        <Key custom:keyLabel="€" custom:keyOutputText="€" />
+        <Key custom:keyLabel="¥" custom:keyOutputText="¥" />
+        <Key custom:keyLabel="^" custom:keyOutputText="^" />
+        <Key custom:keyLabel="º" custom:keyOutputText="º" />
+        <Key custom:keyLabel="=" custom:keyOutputText="=" />
+        <Key custom:keyLabel="{" custom:keyOutputText="{" />
+        <Key custom:keyLabel="}" custom:keyOutputText="}" />
+        <Key custom:keyBackground="@drawable/key_bg_primary"
+            custom:codes="-2" custom:keyIcon="@drawable/ic_arrow_right_outline_24"
+            custom:keyWidth="85.0dip" custom:textColor="@color/key_text" />
+    </Row>
+
+    <Row>
+        <Key custom:codes="-3" custom:keyLabel="!123"
+            custom:keyboard="@xml/keyboard_symbols" custom:textSize="12.0dip" />
+        <Key custom:keyLabel="," custom:keyOutputText="," />
+        <Key custom:keyLabel="¿" custom:keyOutputText="¿" />
+        <Key custom:keyLabel="¡" custom:keyOutputText="¡" />
+        <Key custom:keyLabel="&lt;" custom:keyOutputText="&lt;" />
+        <Key custom:keyLabel=">" custom:keyOutputText=">" />
+        <Key custom:keyLabel="[" custom:keyOutputText="[" />
+        <Key custom:keyLabel="]" custom:keyOutputText="]" />
+        <Key custom:keyLabel="—" custom:keyOutputText="—" />
+        <Key custom:keyLabel="|" custom:keyOutputText="|" />
+        <Key custom:keyLabel="\\" custom:keyOutputText="\\" />
+    </Row>
+
+    <Row>
+        <Key custom:keyBackground="@drawable/key_bg_bottom_left"
+            custom:codes="-7" custom:keyLabel="abc"
+            custom:keyWidth="spanDefaultKeys_2" custom:textSize="12.0dip" />
+        <Key custom:keyLabel="_" custom:keyOutputText="_" />
+        <Key custom:codes="1,-7" custom:keyOutputText=" "
+            custom:keyWidth="spanDefaultKeys_5" />
+        <Key custom:keyLabel="," custom:keyOutputText="," />
+        <Key custom:keyLabel="." custom:keyOutputText="." />
+        <Key custom:keyBackground="@drawable/key_bg_bottom_right"
+            custom:codes="-4" custom:keyIcon="@drawable/ic_close_filled_24" />
+    </Row>
+</Keyboard>
