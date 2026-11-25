@@ -39,6 +39,8 @@ public class KeyboardView extends View {
     private static final long REPEAT_DELAY = 400L;
     private static final long REPEAT_INTERVAL = 60L;
     private static final long LONG_PRESS_DELAY = 340L;
+    /** 按在键缝/边缘时吸附到最近键的最大距离。 */
+    private static final float KEY_SNAP_DP = 10f;
 
     private final Paint fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -57,6 +59,7 @@ public class KeyboardView extends View {
     private boolean shifted;
     private boolean caps;
     private boolean longPressFired;
+    private float keySnap;
     private int lastDeviceId = -1;
     private static boolean inputDevicesLogged;
     private AudioManager audioManager;
@@ -134,6 +137,7 @@ public class KeyboardView extends View {
         radius = 8f * density;
         radiusOuter = 16f * density;
         iconSize = 24f * density;
+        keySnap = KEY_SNAP_DP * density;
         colorPrimary = context.getResources().getColor(R.color.key_primary, null);
         colorSecondary = context.getResources().getColor(R.color.key_secondary, null);
         colorAccent = context.getResources().getColor(R.color.key_accent, null);
@@ -401,6 +405,48 @@ public class KeyboardView extends View {
         return null;
     }
 
+    /** 点到按键矩形边缘的距离平方（点在矩形内为 0）。 */
+    private static float distanceSquaredTo(RectF rect, float x, float y) {
+        float dx = 0f;
+        if (x < rect.left) {
+            dx = rect.left - x;
+        } else if (x > rect.right) {
+            dx = x - rect.right;
+        }
+        float dy = 0f;
+        if (y < rect.top) {
+            dy = rect.top - y;
+        } else if (y > rect.bottom) {
+            dy = y - rect.bottom;
+        }
+        return dx * dx + dy * dy;
+    }
+
+    /**
+     * VR 光标命中：精确命中优先，落在键缝/边缘时吸附最近键。
+     *
+     * Quest 手柄扣扳机时射线会轻微移位，按下点可能落进 8dp 键缝；
+     * 这里只做常量次数的矩形距离比较，不引入轮询或定时器。
+     */
+    private Key hitKey(float x, float y) {
+        Key key = findKey(x, y);
+        if (key != null || keyboard == null) {
+            return key;
+        }
+        float best = keySnap * keySnap;
+        Key nearest = null;
+        for (Keyboard.Row row : keyboard.rows) {
+            for (Key candidate : row.keys) {
+                float dist = distanceSquaredTo(candidate.rect, x, y);
+                if (dist <= best) {
+                    best = dist;
+                    nearest = candidate;
+                }
+            }
+        }
+        return nearest;
+    }
+
     private void clearPressed() {
         if (pressedKey != null) {
             pressedKey.pressed = false;
@@ -537,11 +583,11 @@ public class KeyboardView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN: {
-                Key key = findKey(event.getX(), event.getY());
                 clearPressed();
                 endPopup();
                 longPressFired = false;
                 handler.removeCallbacks(longPressRunnable);
+                Key key = hitKey(event.getX(), event.getY());
                 if (key != null) {
                     pressedKey = key;
                     key.pressed = true;
@@ -564,20 +610,9 @@ public class KeyboardView extends View {
                         variantPopup.updateSelection(getLeft() + event.getX(),
                                 getTop() + event.getY());
                     }
-                    return true;
                 }
-                Key key = findKey(event.getX(), event.getY());
-                if (key != pressedKey) {
-                    stopRepeat();
-                    handler.removeCallbacks(longPressRunnable);
-                    clearPressed();
-                    longPressFired = false;
-                    if (key != null) {
-                        pressedKey = key;
-                        key.pressed = true;
-                    }
-                    invalidate();
-                }
+                // 按下后不换键：松开时结算的始终是按下时的按键，
+                // 光标漂移到键缝或邻键都不影响本次点击。
                 return true;
             }
             case MotionEvent.ACTION_UP: {
@@ -596,16 +631,16 @@ public class KeyboardView extends View {
                     if (variant != null && listener != null) {
                         listener.onKeyVariant(key, variant);
                     }
-                } else if (key != null
-                        && findKey(event.getX(), event.getY()) == key) {
-                    if (listener != null) {
-                        listener.onKey(key);
-                    }
+                } else if (key != null && listener != null) {
+                    listener.onKey(key);
                 }
                 invalidate();
                 return true;
             }
             case MotionEvent.ACTION_CANCEL: {
+                if (pressedKey != null) {
+                    Log.i("QuestIME", "touch cancel pressed=" + pressedKey.label);
+                }
                 stopRepeat();
                 handler.removeCallbacks(longPressRunnable);
                 endPopup();
@@ -624,7 +659,8 @@ public class KeyboardView extends View {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_HOVER_MOVE: {
-                Key key = findKey(event.getX(), event.getY());
+                // 与点击共用吸附逻辑，高亮范围即实际可点范围
+                Key key = hitKey(event.getX(), event.getY());
                 if (key != hoveredKey) {
                     if (hoveredKey != null) {
                         hoveredKey.hovered = false;
