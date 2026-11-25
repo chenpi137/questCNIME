@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.inputmethodservice.InputMethodService;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,10 +12,15 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.ExtractedText;
+import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -72,9 +78,18 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
     private PanelRoot root;
     private KeyboardView keyboardView;
     private VariantPopupView variantPopup;
+    private CursorScrubberView cursorScrubber;
     private LinearLayout suggestionList;
-    private TextView composeText;
+    private HorizontalScrollView fieldScroll;
+    private LinearLayout inputRow;
+    private TextView beforeText;
+    private View caretView;
+    private TextView afterText;
+    private String readoutBefore = "";
+    private String readoutAfter = "";
     private TextView pinyinTag;
+    private boolean scrubbing;
+    private int scrubAppliedDelta;
 
     private boolean chinese = true;
     private boolean shift;
@@ -84,6 +99,10 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
     private static final int READOUT_HEIGHT_DP = 56;
     private static final int KEYBOARD_HEIGHT_DP = 216;
     private static final int VERTICAL_MARGIN_DP = 4;
+    /** 输入框镜像光标前后各取多少字符；同时是空格拖光标的左右上限。 */
+    private static final int READOUT_CONTEXT_CHARS = 128;
+    /** 空格滑轨每移动多少 dp 光标走一个字。 */
+    private static final float SCRUB_DP_PER_CHAR = 8f;
     private static final int PANEL_HEIGHT_DP = READOUT_HEIGHT_DP + KEYBOARD_HEIGHT_DP
             + VERTICAL_MARGIN_DP * 3;
 
@@ -166,6 +185,7 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
         super.onStartInputView(info, restarting);
         Log.d(TAG, "onStartInputView restarting=" + restarting
                 + " inputType=0x" + Integer.toHexString(info.inputType));
+        hideScrubber();
         if (rime != null && rimeReady) {
             rime.clearComposition();
         }
@@ -193,12 +213,19 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
     @Override
     public void onFinishInputView(boolean finishingInput) {
         Log.d(TAG, "onFinishInputView finishing=" + finishingInput);
+        hideScrubber();
         if (rime != null && rimeReady) {
             rime.clearComposition();
         }
         resetRimeFields();
         clearComposition();
         super.onFinishInputView(finishingInput);
+    }
+
+    @Override
+    public void onWindowHidden() {
+        hideScrubber();
+        super.onWindowHidden();
     }
 
     // ---------------------------------------------------------------------
@@ -236,6 +263,14 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
         root.addView(variantPopup, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         keyboardView.setVariantPopup(variantPopup);
+
+        cursorScrubber = new CursorScrubberView(this);
+        FrameLayout.LayoutParams scrubLp = new FrameLayout.LayoutParams(
+                CursorScrubberView.width(this), CursorScrubberView.height(this),
+                Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        // 空格键位于最后一行（y=232dp 起）；滑轨底边停在它上方 8dp。
+        scrubLp.topMargin = dp(152);
+        root.addView(cursorScrubber, scrubLp);
     }
 
     private View buildReadout() {
@@ -261,19 +296,36 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
         HorizontalScrollView fieldScroll = new HorizontalScrollView(this);
         fieldScroll.setHorizontalScrollBarEnabled(false);
         fieldScroll.setFillViewport(false);
+        this.fieldScroll = fieldScroll;
 
         LinearLayout fieldRow = new LinearLayout(this);
         fieldRow.setOrientation(LinearLayout.HORIZONTAL);
         fieldRow.setGravity(Gravity.CENTER_VERTICAL);
 
-        composeText = new TextView(this);
-        composeText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        composeText.setTextColor(0xFF999999);
-        composeText.setSingleLine(true);
-        composeText.setEllipsize(TextUtils.TruncateAt.END);
-        composeText.setMaxWidth(dp(480));
-        composeText.setGravity(Gravity.CENTER_VERTICAL);
-        fieldRow.addView(composeText, new LinearLayout.LayoutParams(
+        // 真正的“带光标的输入框”：光标前的文字 + 竖线光标 + 光标后的文字。
+        inputRow = new LinearLayout(this);
+        inputRow.setOrientation(LinearLayout.HORIZONTAL);
+        inputRow.setGravity(Gravity.CENTER_VERTICAL);
+
+        beforeText = makeReadoutText();
+        inputRow.addView(beforeText, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        caretView = new View(this);
+        GradientDrawable caretBg = new GradientDrawable();
+        caretBg.setColor(0xFFF2F2F2);
+        caretBg.setCornerRadius(dp(1));
+        caretView.setBackground(caretBg);
+        LinearLayout.LayoutParams caretLp = new LinearLayout.LayoutParams(dp(2), dp(24));
+        caretLp.leftMargin = dp(1);
+        caretLp.rightMargin = dp(1);
+        inputRow.addView(caretView, caretLp);
+
+        afterText = makeReadoutText();
+        inputRow.addView(afterText, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        fieldRow.addView(inputRow, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         suggestionList = new LinearLayout(this);
@@ -284,6 +336,46 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
 
         fieldScroll.addView(fieldRow, new HorizontalScrollView.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        fieldScroll.setOnTouchListener(new View.OnTouchListener() {
+            private float downX;
+            private float downY;
+            private boolean moved;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        downX = event.getX();
+                        downY = event.getY();
+                        moved = false;
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        int slop = ViewConfiguration.get(QuestImeService.this)
+                                .getScaledTouchSlop();
+                        if (Math.abs(event.getX() - downX) > slop
+                                || Math.abs(event.getY() - downY) > slop) {
+                            moved = true;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (!moved) {
+                            Log.d(TAG, "readout touch x=" + event.getX()
+                                    + " y=" + event.getY()
+                                    + " scroll=" + fieldScroll.getScrollX());
+                            handleReadoutTap(event.getX() + fieldScroll.getScrollX());
+                        }
+                        break;
+                    case MotionEvent.ACTION_CANCEL:
+                        moved = true;
+                        break;
+                    default:
+                        break;
+                }
+                // 返回 false，横向滚动（查看长文本）仍然交给 ScrollView。
+                return false;
+            }
+        });
+
         FrameLayout.LayoutParams scrollLp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, dp(32), Gravity.BOTTOM);
         scrollLp.leftMargin = dp(16);
@@ -292,6 +384,15 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
         bar.addView(fieldScroll, scrollLp);
 
         return bar;
+    }
+
+    private TextView makeReadoutText() {
+        TextView view = new TextView(this);
+        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        view.setSingleLine(true);
+        view.setGravity(Gravity.CENTER_VERTICAL);
+        view.setIncludeFontPadding(false);
+        return view;
     }
 
     // ---------------------------------------------------------------------
@@ -393,6 +494,76 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
             out = mapPunctuation(out);
         }
         commitText(out);
+    }
+
+    @Override
+    public boolean canSpaceScrub() {
+        if (rimeComposing || composing.length() > 0) {
+            return false;
+        }
+        // 空输入框没有可移动的光标，长按松手仍然按普通空格处理。
+        String before = textBeforeCursor();
+        String after = textAfterCursor();
+        return (before != null && !before.isEmpty())
+                || (after != null && !after.isEmpty());
+    }
+
+    @Override
+    public void onSpaceScrubStart() {
+        if (cursorScrubber == null) {
+            return;
+        }
+        updateReadout();
+        scrubbing = true;
+        scrubAppliedDelta = 0;
+        cursorScrubber.show();
+        Log.i(TAG, "space scrub start before=" + readoutBefore.length()
+                + " after=" + readoutAfter.length());
+    }
+
+    @Override
+    public void onSpaceScrubMove(float dx) {
+        if (!scrubbing || cursorScrubber == null) {
+            return;
+        }
+        cursorScrubber.setBallOffset(dx);
+        float perChar = SCRUB_DP_PER_CHAR * getResources().getDisplayMetrics().density;
+        int desired = Math.round(cursorScrubber.getBallOffset() / perChar);
+        // 只允许在当前镜像文本范围内移动，拖到边界后回拖能回到原光标。
+        desired = Math.max(-readoutBefore.length(),
+                Math.min(readoutAfter.length(), desired));
+        int delta = desired - scrubAppliedDelta;
+        if (delta != 0) {
+            moveCaretBy(delta);
+            scrubAppliedDelta = desired;
+            if (keyboardView != null) {
+                keyboardView.hapticTick();
+            }
+            updateReadout();
+        }
+        Log.d(TAG, "space scrub dx=" + dx + " desired=" + desired);
+    }
+
+    @Override
+    public void onSpaceScrubEnd() {
+        if (!scrubbing) {
+            return;
+        }
+        scrubbing = false;
+        scrubAppliedDelta = 0;
+        if (cursorScrubber != null) {
+            cursorScrubber.hide();
+        }
+        updateReadout();
+        Log.i(TAG, "space scrub end");
+    }
+
+    private void hideScrubber() {
+        scrubbing = false;
+        scrubAppliedDelta = 0;
+        if (cursorScrubber != null) {
+            cursorScrubber.hide();
+        }
     }
 
     private boolean handleCode(int code, Key key) {
@@ -782,12 +953,12 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
     }
 
     private void updateReadout() {
-        if (composeText == null) {
+        if (inputRow == null) {
             return;
         }
         if (chinese && (rimeComposing || composing.length() > 0)) {
             // 输入中的拼音只显示为左上角小标签，下方区域全部留给候选词
-            composeText.setVisibility(View.GONE);
+            inputRow.setVisibility(View.GONE);
             String tag;
             if (rimeComposing) {
                 tag = rimeTagText();
@@ -800,33 +971,159 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
             pinyinTag.setTextColor(0xFFDDDDDD);
             return;
         }
-        composeText.setVisibility(View.VISIBLE);
-        composeText.setPaintFlags(composeText.getPaintFlags()
-                & ~android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+
+        inputRow.setVisibility(View.VISIBLE);
         pinyinTag.setText(chinese ? "拼" : "EN");
-        String mirror = currentEditorText();
-        if (!TextUtils.isEmpty(mirror)) {
-            composeText.setText(mirror);
-            composeText.setTextColor(0xFFF2F2F2);
+        pinyinTag.setTextColor(0xFFDDDDDD);
+
+        String before = textBeforeCursor();
+        String after = textAfterCursor();
+        readoutBefore = before == null ? "" : before;
+        readoutAfter = after == null ? "" : after;
+
+        if (readoutBefore.isEmpty() && readoutAfter.isEmpty()) {
+            beforeText.setVisibility(View.GONE);
+            afterText.setVisibility(View.VISIBLE);
+            afterText.setText(chinese ? R.string.hint_zh : R.string.hint_en);
+            afterText.setTextColor(0xFF999999);
         } else {
-            composeText.setText(chinese ? R.string.hint_zh : R.string.hint_en);
-            composeText.setTextColor(0xFF999999);
+            beforeText.setVisibility(readoutBefore.isEmpty() ? View.GONE : View.VISIBLE);
+            beforeText.setText(readoutBefore);
+            beforeText.setTextColor(0xFFF2F2F2);
+            afterText.setVisibility(readoutAfter.isEmpty() ? View.GONE : View.VISIBLE);
+            afterText.setText(readoutAfter);
+            afterText.setTextColor(0xFFF2F2F2);
         }
+        caretView.setVisibility(View.VISIBLE);
+        scrollReadoutToCaret();
+    }
+
+    private String textBeforeCursor() {
+        InputConnection ic = getCurrentInputConnection();
+        if (ic == null) {
+            return null;
+        }
+        CharSequence before = ic.getTextBeforeCursor(READOUT_CONTEXT_CHARS, 0);
+        return before == null ? null : before.toString();
+    }
+
+    private String textAfterCursor() {
+        InputConnection ic = getCurrentInputConnection();
+        if (ic == null) {
+            return null;
+        }
+        CharSequence after = ic.getTextAfterCursor(READOUT_CONTEXT_CHARS, 0);
+        return after == null ? null : after.toString();
+    }
+
+    private void scrollReadoutToCaret() {
+        if (fieldScroll == null || caretView == null) {
+            return;
+        }
+        fieldScroll.post(new Runnable() {
+            @Override
+            public void run() {
+                if (fieldScroll == null || caretView == null
+                        || rimeComposing || composing.length() > 0) {
+                    return;
+                }
+                int caretX = caretView.getLeft() + caretView.getWidth() / 2;
+                int target = caretX - fieldScroll.getWidth() / 2;
+                fieldScroll.scrollTo(Math.max(0, target), 0);
+            }
+        });
+    }
+
+    /** 点击输入框里的文字：把光标定位到对应字符前/后。 */
+    private void handleReadoutTap(float contentX) {
+        if (rimeComposing || composing.length() > 0) {
+            return;
+        }
+        int beforeLen = readoutBefore.length();
+        int afterLen = readoutAfter.length();
+        if (beforeLen == 0 && afterLen == 0) {
+            return;
+        }
+        int delta = 0;
+        if (beforeText.getVisibility() == View.VISIBLE) {
+            int left = beforeText.getLeft();
+            int right = beforeText.getRight();
+            if (contentX >= left && contentX <= right) {
+                int offset = beforeText.getOffsetForPosition(contentX - left,
+                        beforeText.getHeight() / 2f);
+                offset = Math.max(0, Math.min(beforeLen, offset));
+                delta = -(beforeLen - offset);
+            }
+        }
+        if (delta == 0 && afterText.getVisibility() == View.VISIBLE) {
+            int left = afterText.getLeft();
+            int right = afterText.getRight();
+            if (contentX >= left && contentX <= right) {
+                int offset = afterText.getOffsetForPosition(contentX - left,
+                        afterText.getHeight() / 2f);
+                offset = Math.max(0, Math.min(afterLen, offset));
+                delta = offset;
+            } else if (contentX > right) {
+                delta = afterLen;
+            }
+        }
+        if (delta != 0) {
+            moveCaretBy(delta);
+            updateReadout();
+        }
+        Log.d(TAG, "readout tap x=" + contentX + " delta=" + delta
+                + " before=" + beforeLen + " after=" + afterLen
+                + " bGeo=" + beforeText.getLeft() + "," + beforeText.getRight()
+                + " " + beforeText.getWidth() + "x" + beforeText.getHeight()
+                + " layout=" + (beforeText.getLayout() != null)
+                + " aGeo=" + afterText.getLeft() + "," + afterText.getRight()
+                + " " + afterText.getWidth() + "x" + afterText.getHeight());
+    }
+
+    /**
+     * 相对移动光标。优先使用 ExtractedText + setSelection（瞬时、无按键音）；
+     * 编辑器不支持时退回 DPAD 左右键事件。
+     */
+    private void moveCaretBy(int delta) {
+        if (delta == 0) {
+            return;
+        }
+        InputConnection ic = getCurrentInputConnection();
+        if (ic == null) {
+            return;
+        }
+        try {
+            ExtractedTextRequest request = new ExtractedTextRequest();
+            request.hintMaxChars = 512;
+            request.hintMaxLines = 0;
+            ExtractedText extracted = ic.getExtractedText(request, 0);
+            if (extracted != null && extracted.text != null && extracted.selectionStart >= 0) {
+                int base = extracted.startOffset;
+                int selection = base + extracted.selectionStart;
+                int target = Math.max(base, Math.min(base + extracted.text.length(),
+                        selection + delta));
+                if (target != selection) {
+                    ic.setSelection(target, target);
+                }
+                Log.d(TAG, "caret selection=" + selection + " target=" + target
+                        + " delta=" + delta);
+                return;
+            }
+        } catch (Throwable t) {
+            Log.w(TAG, "getExtractedText/setSelection failed", t);
+        }
+        int keyCode = delta > 0 ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT;
+        int steps = Math.min(Math.abs(delta), 128);
+        for (int i = 0; i < steps; i++) {
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
+            ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode));
+        }
+        Log.d(TAG, "caret dpad key=" + keyCode + " steps=" + steps);
     }
 
     private String rimeTagText() {
         String text = rimePreedit != null && !rimePreedit.isEmpty() ? rimePreedit : rimeInput;
         return text == null ? "" : text.replace(' ', '\'');
-    }
-
-    /** 镜像当前文本框内容，行为与 VrShell ReadoutEditText 一致。 */
-    private String currentEditorText() {
-        InputConnection ic = getCurrentInputConnection();
-        if (ic == null) {
-            return null;
-        }
-        CharSequence before = ic.getTextBeforeCursor(64, 0);
-        return before == null ? null : before.toString();
     }
 
     @Override

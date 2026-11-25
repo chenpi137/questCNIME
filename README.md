@@ -14,11 +14,14 @@ Quest 原生 VrShell 键盘实现；中文输入核心使用 **Rime（librime）
 ## 功能
 
 - VrShell 风格键盘：48dp 按键、8dp 间距、状态栏 + 候选栏、A/a/@ 长按变体
+- 光标输入框：状态栏镜像光标前后文字并显示竖线光标；点击文字可直接定位光标
+- 长按空格左右拖动：空格上方浮出光标滑轨，白球跟随手指，光标按滑动方向前进/后退
 - Rime 中文输入：拼音候选、emoji、中英混输、符号页、候选翻页
-- 首次启动 OOBE：免责声明 / 用户协议 → 启用输入法 → 初始化词库 → 选择输入法
+- 首次启动 OOBE：免责声明 / 用户协议 → 启用输入法并初始化词库 → 选择输入法
+- 设置页：高级设置、关于、检查更新（读取 GitHub 最新 Release 的版本号）
 - OOBE 第 1 步强制打开 **Android 原生设置**（`com.android.settings`），而不是 Quest 设置
 - 按键音走系统 `SpatialMediaManager` 空间音频事件；服务不可用时退回 Android 系统按键音
-- 无网络权限、无数据收集；词库在本机初始化与运行
+- 仅在“检查更新”时请求 GitHub Releases 版本元数据；不收集、不上传输入内容
 - 暗色自适应图标、圆角图标与各密度 PNG
 
 ## 当前状态
@@ -26,6 +29,10 @@ Quest 原生 VrShell 键盘实现；中文输入核心使用 **Rime（librime）
 - 版本：**1.1.0**（versionCode 2）
 - 目标设备：Quest 3S / Quest 3，Android 14（arm64-v8a）
 - 已在 Quest 3S 上验证：安装、IME 启用/切换、键盘弹出、Rime 候选、上屏、OOBE 页面启动
+- 新界面已在 Quest 3S 上查看：设置主界面、OOBE 协议/输入法设置页；检查更新读取到
+  GitHub `v1.1.0` 并显示“已是最新版本”
+- 长按空格拖光标已通过实机注入验证：logcat 可见 `space scrub start/end` 与
+  `caret selection`，松手不插入空格；点击输入框文字同样能改变 selection
 - 键盘窗口：`780x355`（状态栏 56dp + 键盘 216dp + 上下 4dp 边距）
 
 ## 快速开始
@@ -118,13 +125,15 @@ adb shell ime set com.questcn.ime/.QuestImeService
 
 ## 首次启动流程（OOBE）
 
-1. **免责声明 / 用户协议 / 开源致谢**：必须勾选“我已阅读并同意”才能继续
-2. **启用输入法**：点击按钮打开 Android 原生
-   `com.android.settings/.Settings$AvailableVirtualKeyboardActivity`，启用
-   “Quest 中文输入法”
-3. **初始化文件（必要）**：复制 Rime 词库并编译索引，首次约 10–40 秒；完成前不能下一步
-4. **选择输入法**：弹出系统输入法选择器；只有当前输入法切到 QuestCNIME 后，“进入键盘”才可用
-5. 完成：写入 `oobe_done`，跳转到常规设置页；以后启动直接进入常规界面
+1. **用户协议条款和免责声明**：滚动阅读免责声明、用户协议与开源致谢，勾选同意后才能下一步
+2. **输入法设置**：同一页完成两件事
+   - 点击“打开设置选项”打开 Android 原生
+     `com.android.settings/.Settings$AvailableVirtualKeyboardActivity`，启用
+     “Quest 中文输入法”
+   - 点击“初始化编译词典”复制 Rime 词库并编译索引，首次约 10–40 秒
+3. **做的好！最后一步！**：弹出系统输入法选择器；只有当前输入法切到 QuestCNIME 后，
+   “下一步”才可用
+4. 完成：写入 `oobe_done`，进入设置主界面；以后启动直接进入设置
 
 > Quest 默认会把 `android.settings.INPUT_METHOD_SETTINGS` 解析到 VrShell 的 Quest 设置。
 > OOBE 通过 `Intent.setPackage("com.android.settings")` 强制走原生 Android 设置。
@@ -154,6 +163,10 @@ adb shell ime set com.questcn.ime/.QuestImeService
 
 - **键盘 UI**：`KeyboardView` 自绘按键、圆角、图标、按下/悬停态；布局来自
   `res/xml/keyboard_qwerty.xml` 与 `keyboard_symbols*.xml`
+- **光标输入框 / 空格拖动**：状态栏用“光标前文字 + 竖线光标 + 光标后文字”镜像宿主
+  文本框；点击文字通过 `InputConnection.setSelection`（不支持时退回 DPAD 键事件）
+  定位光标。长按空格 340ms 弹出 `CursorScrubberView`，左右拖动时白球跟随手指，
+  每 8dp 移动一个字符，松手后不插入空格；拼音组合输入期间不进入该模式。
 - **IME**：`QuestImeService` 继承 `InputMethodService`，通过
   `InputConnection.setComposingText/commitText` 与宿主交互
 - **Rime**：`RimeCore` 单例负责复制 assets、首次 deploy、会话/候选/上屏；
@@ -163,15 +176,21 @@ adb shell ime set com.questcn.ime/.QuestImeService
   `AudioManager.FX_KEYPRESS_*`
 - **OOBE**：`OobeActivity` 使用 SharedPreferences 保存 `oobe_agreed` / `oobe_done`；
   `SettingsActivity` 在未完成引导时会重定向回 OOBE
+- **设置页**：`SettingsActivity` / `AdvancedSettingsActivity` / `AboutActivity` 使用
+  `Ui` 工具箱搭建暗色界面；`UpdateChecker` 在后台线程读取 GitHub 最新 Release 并缓存
+  30 分钟，点击“检查更新”可强制刷新
 
 ## 权限与隐私
 
-APK 仅申请：
+APK 申请：
 
 - `android.permission.WAKE_LOCK`（Rime 初始化/长任务时保持唤醒）
 - `android.permission.VIBRATE`（按键触觉反馈）
+- `android.permission.INTERNET`（仅“检查更新”读取 GitHub Releases 的版本号）
 
-没有 `INTERNET` 权限，不收集、不上传输入内容或设备信息。中文输入完全在本机处理。
+检查更新只访问 `api.github.com/repos/chenpi137/questCNIME/releases/latest`，读取
+`tag_name` / `html_url` / `published_at` 并与本机 `versionName` 比较；不发送输入内容、
+词库或设备标识。输入内容与中文词库仍完全在本机处理。
 录音探针、`RECORD_AUDIO` 权限和 FMOD 回退采样均已移除。
 
 ## 已知限制

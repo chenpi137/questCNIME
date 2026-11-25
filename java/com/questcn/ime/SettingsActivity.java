@@ -1,149 +1,189 @@
 package com.questcn.ime;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-/** 启用/切换本输入法的简单说明页。 */
+/**
+ * 设置主界面：高级设置 / 关于 / 检查更新。
+ *
+ * 检查更新读取 GitHub 仓库最新 Release 的 tag_name，与本机 versionName 比较；
+ * 只请求版本元数据，见 UpdateChecker。
+ */
 public class SettingsActivity extends Activity {
+    private static final String PREFS = "questcn_ime";
+    private static final String KEY_DONE = "oobe_done";
+
+    private Ui.Row updateRow;
+    private UpdateChecker.Result lastResult;
+    private boolean checking;
+    private boolean manualCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!getSharedPreferences("questcn_ime", MODE_PRIVATE)
-                .getBoolean("oobe_done", false)) {
+        SharedPreferences prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
+        if (!prefs.getBoolean(KEY_DONE, false)) {
             startActivity(new Intent(this, OobeActivity.class));
             finish();
             return;
         }
+        Ui.applyWindow(this);
 
-        ScrollView scroll = new ScrollView(this);
-        LinearLayout box = new LinearLayout(this);
-        box.setOrientation(LinearLayout.VERTICAL);
-        box.setPadding(dp(24), dp(24), dp(24), dp(24));
-        scroll.addView(box, new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        Ui.Page page = Ui.page(this, true);
+        page.body.addView(Ui.title(this, getString(R.string.settings_screen_title), false),
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        TextView title = new TextView(this);
-        title.setText(R.string.settings_title);
-        title.setTextSize(24);
-        title.setTextColor(0xFFF2F2F2);
-        box.addView(title);
-
-        TextView body = new TextView(this);
-        body.setText(R.string.settings_body);
-        body.setTextSize(15);
-        body.setTextColor(0xFFCCCCCC);
-        body.setLineSpacing(dp(4), 1f);
-        body.setPadding(0, dp(16), 0, dp(16));
-        box.addView(body);
-
-        Button open = new Button(this);
-        open.setText(R.string.open_ime_settings);
-        open.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent intent = new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Toast.makeText(SettingsActivity.this,
-                            R.string.settings_unavailable, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        box.addView(open, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(52)));
-
-        Button picker = new Button(this);
-        picker.setText(R.string.switch_ime);
-        picker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    InputMethodManager imm = (InputMethodManager)
-                            getSystemService(INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.showInputMethodPicker();
+        View advancedRow = Ui.settingsRow(this,
+                R.drawable.oc_icon_settings_filled_24,
+                getString(R.string.settings_advanced), null,
+                true, false,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(SettingsActivity.this,
+                                AdvancedSettingsActivity.class));
                     }
-                } catch (Exception e) {
-                    Toast.makeText(SettingsActivity.this,
-                            R.string.ime_picker_unavailable, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        LinearLayout.LayoutParams plp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(52));
-        plp.topMargin = dp(12);
-        box.addView(picker, plp);
+                }).view;
 
-        Button rime = new Button(this);
-        rime.setText(R.string.rime_setup);
-        rime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(SettingsActivity.this, RimeProbeActivity.class));
-            }
-        });
-        LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(52));
-        rlp.topMargin = dp(12);
-        box.addView(rime, rlp);
-
-        TextView adb = new TextView(this);
-        adb.setText("ADB 启用命令：\n"
-                + "adb shell ime enable com.questcn.ime/.QuestImeService\n"
-                + "adb shell ime set com.questcn.ime/.QuestImeService");
-        adb.setTextSize(13);
-        adb.setTextColor(0xFF99AACC);
-        adb.setGravity(Gravity.START);
-        adb.setPadding(0, dp(24), 0, 0);
-        box.addView(adb);
-
-        EditText test = new EditText(this);
-        test.setHint("在此测试输入（应弹出 VrShell 布局键盘）");
-        test.setHintTextColor(0xFF888888);
-        test.setTextSize(16);
-        test.setTextColor(0xFFF2F2F2);
-        test.setSingleLine(true);
-        test.setBackgroundColor(0xFF2B2B2B);
-        test.setPadding(dp(12), 0, dp(12), 0);
-        LinearLayout.LayoutParams tlp = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(52));
-        tlp.topMargin = dp(24);
-        box.addView(test, tlp);
-
-        test.requestFocus();
-        test.post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    InputMethodManager imm = (InputMethodManager)
-                            getSystemService(INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.showSoftInput(test, InputMethodManager.SHOW_FORCED);
+        View aboutRow = Ui.settingsRow(this,
+                R.drawable.ic_info_circle_24,
+                getString(R.string.settings_about), null,
+                false, false,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(SettingsActivity.this,
+                                AboutActivity.class));
                     }
-                } catch (Exception ignored) {
-                }
-            }
-        });
+                }).view;
 
-        setContentView(scroll);
+        updateRow = Ui.settingsRow(this,
+                R.drawable.ic_update_circle_24,
+                getString(R.string.settings_update), versionLine(getString(R.string.update_checking)),
+                false, true,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onUpdateClicked();
+                    }
+                });
+
+        LinearLayout group = Ui.rowGroup(this,
+                new View[]{advancedRow, aboutRow, updateRow.view});
+        page.body.addView(group, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        setContentView(page.root);
+        checkUpdates(false);
     }
 
-    private int dp(int value) {
-        return Math.round(value * getResources().getDisplayMetrics().density);
+    // --------------------------------------------------------------- update
+
+    private void onUpdateClicked() {
+        if (checking) {
+            return;
+        }
+        if (lastResult != null && lastResult.ok && lastResult.hasUpdate) {
+            showUpdateDialog(lastResult);
+            return;
+        }
+        manualCheck = true;
+        checkUpdates(true);
+    }
+
+    private void checkUpdates(boolean force) {
+        if (checking) {
+            return;
+        }
+        checking = true;
+        if (updateRow != null && updateRow.subtitle != null) {
+            updateRow.subtitle.setText(versionLine(getString(R.string.update_checking)));
+        }
+        UpdateChecker.check(this, force, new UpdateChecker.Callback() {
+            @Override
+            public void onResult(UpdateChecker.Result result) {
+                checking = false;
+                if (isFinishing()) {
+                    return;
+                }
+                lastResult = result;
+                if (updateRow == null || updateRow.subtitle == null) {
+                    return;
+                }
+                String version = result.currentVersion;
+                if (version == null || version.isEmpty()) {
+                    version = "?";
+                }
+                if (!result.ok) {
+                    updateRow.subtitle.setText(getString(R.string.current_version,
+                            version) + " · " + getString(R.string.update_failed));
+                    manualCheck = false;
+                    return;
+                }
+                if (result.hasUpdate) {
+                    updateRow.subtitle.setText(getString(R.string.current_version,
+                            version) + " · " + getString(R.string.update_found, result.tag));
+                    if (manualCheck) {
+                        showUpdateDialog(result);
+                    }
+                } else {
+                    updateRow.subtitle.setText(getString(R.string.current_version,
+                            version) + " · " + getString(R.string.update_latest));
+                    if (manualCheck) {
+                        Toast.makeText(SettingsActivity.this, R.string.update_latest,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+                manualCheck = false;
+            }
+        });
+    }
+
+    private void showUpdateDialog(final UpdateChecker.Result result) {
+        manualCheck = false;
+        String version = result.currentVersion == null || result.currentVersion.isEmpty()
+                ? "?" : result.currentVersion;
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.update_dialog_title, result.tag))
+                .setMessage(getString(R.string.update_dialog_message, version, result.tag))
+                .setPositiveButton(R.string.update_dialog_open,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                openReleasePage(result.url);
+                            }
+                        })
+                .setNegativeButton(R.string.update_dialog_cancel, null)
+                .show();
+    }
+
+    private void openReleasePage(String url) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(this, R.string.update_no_browser, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String versionLine(String status) {
+        String version = UpdateChecker.currentVersion(this);
+        if (version == null || version.isEmpty()) {
+            version = "?";
+        }
+        return getString(R.string.current_version, version) + " · " + status;
     }
 }

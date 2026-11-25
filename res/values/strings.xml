@@ -17,10 +17,64 @@
     <string name="ime_picker_unavailable">系统未提供输入法选择器，请使用 adb 切换</string>
     <string name="settings_unavailable">系统未提供输入法设置页，请使用 adb 启用</string>
 
-    <string name="oobe_disclaimer">1. 本项目为个人学习与研究项目，不是 Meta / Oculus 官方产品，与 Meta Platforms, Inc. 无任何隶属、授权或背书关系。\n\n2. 本软件按“现状”提供，不附带任何明示或暗示担保，包括但不限于适销性、特定用途适用性和不侵权担保。安装、启用或使用本软件可能改变系统输入法设置，甚至造成输入异常、数据丢失或其他风险，相关风险由使用者自行承担。\n\n3. 本软件不主动收集、上传输入内容、词库或设备信息；中文输入由本机 Rime 引擎离线处理。当前 APK 未申请网络权限。\n\n4. 使用者应确保使用行为合法合规，不得将本软件用于违法、侵权、恶意攻击或其他不当用途。\n\n5. 本项目仅供个人学习研究，不用于商业用途。如需修改、分发或再发布，请遵守所捆绑开源组件的许可证，尤其是 GPL-3.0。\n\n6. 本软件包含或参考第三方资源。如权利人认为相关内容侵犯其权利，请通过发布渠道联系作者并提供权属证明；核实后将立即删除相关资源或停止分发。</string>
+    <string name="oobe_disclaimer">1. 本项目为个人学习与研究项目，不是 Meta / Oculus 官方产品，与 Meta Platforms, Inc. 无任何隶属、授权或背书关系。\n\n2. 本软件按“现状”提供，不附带任何明示或暗示担保，包括但不限于适销性、特定用途适用性和不侵权担保。安装、启用或使用本软件可能改变系统输入法设置，甚至造成输入异常、数据丢失或其他风险，相关风险由使用者自行承担。\n\n3. 本软件不收集、上传输入内容、词库或设备信息；中文输入由本机 Rime 引擎离线处理。仅在“检查更新”时访问 GitHub Releases 接口读取版本号，不发送任何输入内容或设备标识。\n\n4. 使用者应确保使用行为合法合规，不得将本软件用于违法、侵权、恶意攻击或其他不当用途。\n\n5. 本项目仅供个人学习研究，不用于商业用途。如需修改、分发或再发布，请遵守所捆绑开源组件的许可证，尤其是 GPL-3.0。\n\n6. 本软件包含或参考第三方资源。如权利人认为相关内容侵犯其权利，请通过发布渠道联系作者并提供权属证明；核实后将立即删除相关资源或停止分发。</string>
     <string name="oobe_agreement">1. 许可：在遵守本协议及第三方许可证的前提下，你可以在个人设备上安装并使用本软件。\n\n2. 使用限制：不得移除或篡改版权、许可证声明；不得以官方名义误导他人；不得用于违法或侵权用途。\n\n3. 隐私：本软件不收集个人数据。输入内容仅在本机内存和本地词库中处理；卸载应用后，本地词库等应用数据会随应用数据一并删除。\n\n4. 风险自担：安装、覆盖安装、启用输入法、切换系统输入法等操作由你自行决定并承担风险。\n\n5. 第三方组件：本软件包含 GPL-3.0、BSD-3-Clause、Apache-2.0、MIT 等许可证的开源组件，版权归各自作者所有，详见“开源致谢”。\n\n6. 侵权处理：如你是权利人并认为本软件包含侵权内容，请通过发布渠道联系作者，提供权属证明；确认后立即删除相关内容或停止分发。\n\n7. 协议更新：后续版本可能更新本协议；继续使用即视为接受更新后的协议。\n\n8. 同意：点击“同意并继续”即表示你已阅读、理解并接受以上免责声明与用户协议。</string>
     <string name="oobe_acknowledgements">• CyIME（https://github.com/Cyletix/CyIME）— GPL-3.0，librime JNI/输入核心集成与预编译库。\n• Rime / librime（https://github.com/rime/librime）— BSD-3-Clause，中文输入引擎。\n• 雾凇拼音 rime-ice（https://github.com/iDvel/rime-ice）— GPL-3.0，拼音方案与词库。\n• OpenCC（https://github.com/BYVoid/OpenCC）— Apache-2.0，简繁转换与词库数据。\n• ONNX Runtime（https://github.com/microsoft/onnxruntime）— MIT，模型推理运行库。\n• Android Open Source Project（https://source.android.com）— Apache-2.0，Android 平台与输入法框架。\n• Quest / VrShell 的布局与交互仅作个人研究参考；Meta、Quest、Oculus 是其权利人的商标，本项目与 Meta 无关联。\n• 按键音回退采样来自 Meta VrShell 资源，仅用于个人研究中的兼容性测试；如权利人要求，将立即移除。\n\n感谢以上项目及所有开源作者。若名单有遗漏或标注有误，请联系作者更正。</string>
     <string name="oobe_agree_check">我已阅读并同意以上免责声明与用户协议</string>
     <string name="oobe_agree">同意并继续</string>
     <string name="oobe_exit">退出</string>
+
+    <!-- 新版 OOBE / 设置界面 -->
+    <string name="action_next">下一步</string>
+    <string name="action_back">返回</string>
+
+    <string name="oobe_agreement_title">用户协议条款\n和免责声明</string>
+    <string name="oobe_setup_title">输入法设置</string>
+    <string name="oobe_setup_enable_hint">点击下方按钮打开安卓系统输入法设置，启用“Quest 中文输入法”。\n如果系统设置没有出现，请稍后从系统设置中手动进入“输入法”页面。</string>
+    <string name="oobe_setup_enable_action">打开设置选项</string>
+    <string name="oobe_setup_init_hint">点击下方按钮开始编译 Rime 词典，首次通常需要 10–40 秒，请保持头显唤醒并留在本页面。</string>
+    <string name="oobe_setup_init_action">初始化编译词典</string>
+    <string name="oobe_setup_progress">在此查看编译进度</string>
+    <string name="oobe_finish_title">做的好！\n最后一步！</string>
+    <string name="oobe_finish_hint">现在让我们点击按钮来选择输入法！\n选择“Quest 中文输入法”后即可开始输入。</string>
+    <string name="oobe_finish_action">设置输入法</string>
+
+    <string name="oobe_status_enabled">状态：已启用</string>
+    <string name="oobe_status_not_enabled">状态：尚未启用，点击上方按钮启用</string>
+    <string name="oobe_status_dict_ready">状态：词库已就绪</string>
+    <string name="oobe_status_dict_not_ready">状态：尚未初始化</string>
+    <string name="oobe_status_dict_running">正在复制词库并编译索引，请稍候…</string>
+    <string name="oobe_status_dict_failed">初始化失败：%1$s\n请点击按钮重试。</string>
+    <string name="oobe_status_ime_current">当前输入法：%1$s</string>
+    <string name="oobe_status_ime_not_current">当前输入法：%1$s，点击上方按钮切换</string>
+    <string name="oobe_status_ime_disabled">输入法尚未启用，请返回上一步</string>
+    <string name="oobe_missing_setup">请先启用输入法并完成词典初始化</string>
+
+    <string name="settings_advanced">高级设置</string>
+    <string name="settings_about">关于</string>
+    <string name="settings_update">检查更新</string>
+    <string name="settings_screen_title">设置</string>
+    <string name="current_version">当前版本 V%1$s</string>
+    <string name="settings_advanced_caption">高级设置选项</string>
+    <string name="advanced_rime_title">RIME核心诊断</string>
+    <string name="advanced_rime_subtitle">检测 RIME 词典状态，点击进入调试页</string>
+    <string name="advanced_ime_title">打开输入法设置</string>
+    <string name="advanced_ime_subtitle">点击打开安卓系统输入法设置，设置输入法。</string>
+
+    <string name="about_title">关于</string>
+    <string name="about_intro">Quest 中文输入法 %1$s\n\n面向 Meta Quest 的独立中文输入法，键盘布局参考 Quest 原生 VrShell，中文候选由本机 Rime / 雾凇拼音提供。本项目为个人学习与研究项目，与 Meta 无隶属关系。</string>
+    <string name="about_repo">开源仓库</string>
+    <string name="about_disclaimer">免责声明</string>
+    <string name="about_license">本项目以 GNU GPL v3.0 分发。第三方组件与许可证：</string>
+
+    <string name="update_checking">正在检查更新…</string>
+    <string name="update_latest">已是最新版本</string>
+    <string name="update_latest_tag">最新版本 %1$s</string>
+    <string name="update_found">发现新版本 %1$s</string>
+    <string name="update_failed">检查失败，点击重试</string>
+    <string name="update_dialog_title">发现新版本 %1$s</string>
+    <string name="update_dialog_message">当前版本 %1$s，最新版本 %2$s。\n是否打开 GitHub Releases 页面？</string>
+    <string name="update_dialog_open">打开</string>
+    <string name="update_dialog_cancel">取消</string>
+    <string name="update_no_browser">没有可用的浏览器</string>
 </resources>

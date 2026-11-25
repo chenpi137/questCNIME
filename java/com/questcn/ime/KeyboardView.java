@@ -34,6 +34,15 @@ public class KeyboardView extends View {
         void onKeyRepeat(Key key);
         void onKeyLongPress(Key key);
         void onKeyVariant(Key key, String text);
+
+        /** 当前是否可以进入“长按空格拖光标”模式（组合输入期间不允许）。 */
+        boolean canSpaceScrub();
+
+        void onSpaceScrubStart();
+
+        void onSpaceScrubMove(float dx);
+
+        void onSpaceScrubEnd();
     }
 
     private static final long REPEAT_DELAY = 400L;
@@ -59,6 +68,9 @@ public class KeyboardView extends View {
     private boolean shifted;
     private boolean caps;
     private boolean longPressFired;
+    private boolean spaceScrubActive;
+    private float spaceScrubOriginX;
+    private float lastTouchX;
     private float keySnap;
     private int lastDeviceId = -1;
     private static boolean inputDevicesLogged;
@@ -110,6 +122,32 @@ public class KeyboardView extends View {
                 }
                 invalidate();
             }
+        }
+    };
+
+    /**
+     * 长按空格：进入光标拖动模式。组合输入（拼音候选）期间不触发，
+     * 仍然按普通空格/首选候选处理。
+     */
+    private final Runnable spaceLongPressRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Key k = pressedKey;
+            if (k == null || listener == null || !isSpaceKey(k)) {
+                return;
+            }
+            if (!listener.canSpaceScrub()) {
+                return;
+            }
+            spaceScrubActive = true;
+            longPressFired = true;
+            // 长按生效时以当前指针位置为原点，避免按下后等待期间的小漂移
+            // 让圆球一出现就跳走。
+            spaceScrubOriginX = lastTouchX;
+            performHapticFeedback(android.view.HapticFeedbackConstants.LONG_PRESS);
+            vibrateController(18);
+            listener.onSpaceScrubStart();
+            invalidate();
         }
     };
 
@@ -479,6 +517,12 @@ public class KeyboardView extends View {
         vibrateController(16);
     }
 
+    /** 光标拖动时逐格反馈：只震动，不播放按键音。 */
+    public void hapticTick() {
+        performHapticFeedback(android.view.HapticFeedbackConstants.CLOCK_TICK);
+        vibrateController(10);
+    }
+
     /**
      * Quest 手柄震动：优先用产生触摸事件的输入设备，其次找带震动器的 gamepad/joystick。
      * 系统 performHapticFeedback 在部分 Quest 版本只走头显通道，这里补上控制器 Vibrator。
@@ -566,6 +610,10 @@ public class KeyboardView extends View {
         return (sources & (InputDevice.SOURCE_GAMEPAD | InputDevice.SOURCE_JOYSTICK)) != 0;
     }
 
+    private boolean isSpaceKey(Key key) {
+        return key != null && key.hasCode(1);
+    }
+
     private boolean supportsLongPress(Key key) {
         if (key == null) {
             return false;
@@ -586,7 +634,10 @@ public class KeyboardView extends View {
                 clearPressed();
                 endPopup();
                 longPressFired = false;
+                spaceScrubActive = false;
+                lastTouchX = event.getX();
                 handler.removeCallbacks(longPressRunnable);
+                handler.removeCallbacks(spaceLongPressRunnable);
                 Key key = hitKey(event.getX(), event.getY());
                 if (key != null) {
                     pressedKey = key;
@@ -600,11 +651,21 @@ public class KeyboardView extends View {
                     } else if (supportsLongPress(key)) {
                         handler.postDelayed(longPressRunnable, LONG_PRESS_DELAY);
                     }
+                    if (isSpaceKey(key)) {
+                        handler.postDelayed(spaceLongPressRunnable, LONG_PRESS_DELAY);
+                    }
                     invalidate();
                 }
                 return true;
             }
             case MotionEvent.ACTION_MOVE: {
+                lastTouchX = event.getX();
+                if (spaceScrubActive) {
+                    if (listener != null) {
+                        listener.onSpaceScrubMove(event.getX() - spaceScrubOriginX);
+                    }
+                    return true;
+                }
                 if (popupActive) {
                     if (variantPopup != null) {
                         variantPopup.updateSelection(getLeft() + event.getX(),
@@ -618,16 +679,21 @@ public class KeyboardView extends View {
             case MotionEvent.ACTION_UP: {
                 Key key = pressedKey;
                 boolean wasLongPress = longPressFired;
+                boolean wasSpaceScrub = spaceScrubActive;
                 String variant = null;
                 if (popupActive && variantPopup != null) {
                     variant = variantPopup.getSelected();
                 }
                 stopRepeat();
                 handler.removeCallbacks(longPressRunnable);
+                handler.removeCallbacks(spaceLongPressRunnable);
                 endPopup();
                 clearPressed();
                 longPressFired = false;
-                if (wasLongPress) {
+                spaceScrubActive = false;
+                if (wasSpaceScrub && listener != null) {
+                    listener.onSpaceScrubEnd();
+                } else if (wasLongPress) {
                     if (variant != null && listener != null) {
                         listener.onKeyVariant(key, variant);
                     }
@@ -641,11 +707,17 @@ public class KeyboardView extends View {
                 if (pressedKey != null) {
                     Log.i("QuestIME", "touch cancel pressed=" + pressedKey.label);
                 }
+                boolean wasSpaceScrub = spaceScrubActive;
                 stopRepeat();
                 handler.removeCallbacks(longPressRunnable);
+                handler.removeCallbacks(spaceLongPressRunnable);
                 endPopup();
                 clearPressed();
                 longPressFired = false;
+                spaceScrubActive = false;
+                if (wasSpaceScrub && listener != null) {
+                    listener.onSpaceScrubEnd();
+                }
                 invalidate();
                 return true;
             }
