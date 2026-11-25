@@ -26,11 +26,11 @@ Quest 原生 VrShell 键盘实现；中文输入核心使用 **Rime（librime）
 
 ## 当前状态
 
-- 版本：**1.1.0**（versionCode 2）
+- 版本：**1.1.11**（versionCode 3）
 - 目标设备：Quest 3S / Quest 3，Android 14（arm64-v8a）
 - 已在 Quest 3S 上验证：安装、IME 启用/切换、键盘弹出、Rime 候选、上屏、OOBE 页面启动
-- 新界面已在 Quest 3S 上查看：设置主界面、OOBE 协议/输入法设置页；检查更新读取到
-  GitHub `v1.1.0` 并显示“已是最新版本”
+- 新界面已在 Quest 3S 上查看：设置主界面、OOBE 协议/输入法设置页；检查更新可读取
+  GitHub 最新 Release 版本号并与本机 `versionName` 比较
 - 长按空格拖光标已通过实机注入验证：logcat 可见 `space scrub start/end` 与
   `caret selection`，松手不插入空格；点击输入框文字同样能改变 selection
 - 键盘窗口：`780x355`（状态栏 56dp + 键盘 216dp + 上下 4dp 边距）
