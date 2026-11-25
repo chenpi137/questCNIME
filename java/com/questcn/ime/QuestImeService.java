@@ -89,7 +89,12 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
     private String readoutAfter = "";
     private TextView pinyinTag;
     private boolean scrubbing;
-    private int scrubAppliedDelta;
+    private boolean caretBlinkOn = true;
+    private float scrubAccumPx;
+    private float scrubLastBallOffset;
+    private int scrubEdgeDirection;
+    private int scrubEdgeTicks;
+    private static final int SCRUB_EDGE_INTERVAL_MS = 80;
 
     private boolean chinese = true;
     private boolean shift;
@@ -117,6 +122,44 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
                 refreshCandidates();
             } else {
                 updateSuggestionPlaceholder();
+            }
+        }
+    };
+
+    /** 输入框光标闪烁；只在输入框可见且 IME 窗口显示时运行。 */
+    private final Runnable caretBlinkRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (caretView == null || inputRow == null
+                    || inputRow.getVisibility() != View.VISIBLE
+                    || !isInputViewShown()) {
+                return;
+            }
+            caretBlinkOn = !caretBlinkOn;
+            caretView.setVisibility(caretBlinkOn ? View.VISIBLE : View.INVISIBLE);
+            ui.postDelayed(this, 500);
+        }
+    };
+
+    /** 滑轨贴边时持续移动光标，直到滑轨离开边缘或到达文本边界。 */
+    private final Runnable scrubEdgeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!scrubbing || scrubEdgeDirection == 0) {
+                return;
+            }
+            if (++scrubEdgeTicks > 100) {
+                scrubEdgeDirection = 0;
+                return;
+            }
+            if (moveCaretBy(scrubEdgeDirection) != 0) {
+                if (keyboardView != null) {
+                    keyboardView.hapticTick();
+                }
+                updateReadout();
+                ui.postDelayed(this, SCRUB_EDGE_INTERVAL_MS);
+            } else {
+                scrubEdgeDirection = 0;
             }
         }
     };
@@ -515,7 +558,10 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
         }
         updateReadout();
         scrubbing = true;
-        scrubAppliedDelta = 0;
+        scrubAccumPx = 0f;
+        scrubLastBallOffset = 0f;
+        scrubEdgeDirection = 0;
+        ui.removeCallbacks(scrubEdgeRunnable);
         cursorScrubber.show();
         Log.i(TAG, "space scrub start before=" + readoutBefore.length()
                 + " after=" + readoutAfter.length());
@@ -527,30 +573,63 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
             return;
         }
         cursorScrubber.setBallOffset(dx);
+        float ball = cursorScrubber.getBallOffset();
         float perChar = SCRUB_DP_PER_CHAR * getResources().getDisplayMetrics().density;
-        int desired = Math.round(cursorScrubber.getBallOffset() / perChar);
-        // 只允许在当前镜像文本范围内移动，拖到边界后回拖能回到原光标。
-        desired = Math.max(-readoutBefore.length(),
-                Math.min(readoutAfter.length(), desired));
-        int delta = desired - scrubAppliedDelta;
-        if (delta != 0) {
-            moveCaretBy(delta);
-            scrubAppliedDelta = desired;
-            if (keyboardView != null) {
-                keyboardView.hapticTick();
+        scrubAccumPx += ball - scrubLastBallOffset;
+        scrubLastBallOffset = ball;
+        int steps = (int) (scrubAccumPx / perChar);
+        if (steps != 0) {
+            int actual = moveCaretBy(steps);
+            if (actual != 0) {
+                scrubAccumPx -= actual * perChar;
+                if (keyboardView != null) {
+                    keyboardView.hapticTick();
+                }
+                updateReadout();
             }
-            updateReadout();
+            if (actual != steps) {
+                // 撞到文本头/尾或编辑器不支持：清掉累积，避免回拖时先走空行程
+                scrubAccumPx = 0f;
+            }
         }
-        Log.d(TAG, "space scrub dx=" + dx + " desired=" + desired);
+
+        float max = cursorScrubber.getMaxBallOffset();
+        if (ball <= -max + 0.5f) {
+            startScrubEdge(-1);
+        } else if (ball >= max - 0.5f) {
+            startScrubEdge(1);
+        } else {
+            stopScrubEdge();
+        }
+        Log.d(TAG, "space scrub dx=" + dx + " ball=" + ball + " steps=" + steps
+                + " accum=" + scrubAccumPx + " edge=" + scrubEdgeDirection);
+    }
+
+    private void startScrubEdge(int direction) {
+        if (scrubEdgeDirection == direction) {
+            return;
+        }
+        scrubEdgeDirection = direction;
+        scrubEdgeTicks = 0;
+        ui.removeCallbacks(scrubEdgeRunnable);
+        ui.postDelayed(scrubEdgeRunnable, 120);
+    }
+
+    private void stopScrubEdge() {
+        scrubEdgeDirection = 0;
+        scrubEdgeTicks = 0;
+        ui.removeCallbacks(scrubEdgeRunnable);
     }
 
     @Override
     public void onSpaceScrubEnd() {
+        stopScrubEdge();
         if (!scrubbing) {
             return;
         }
         scrubbing = false;
-        scrubAppliedDelta = 0;
+        scrubAccumPx = 0f;
+        scrubLastBallOffset = 0f;
         if (cursorScrubber != null) {
             cursorScrubber.hide();
         }
@@ -560,9 +639,29 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
 
     private void hideScrubber() {
         scrubbing = false;
-        scrubAppliedDelta = 0;
+        scrubAccumPx = 0f;
+        scrubLastBallOffset = 0f;
+        stopScrubEdge();
+        stopCaretBlink();
         if (cursorScrubber != null) {
             cursorScrubber.hide();
+        }
+    }
+
+    private void startCaretBlink() {
+        if (caretView == null) {
+            return;
+        }
+        caretBlinkOn = true;
+        caretView.setVisibility(View.VISIBLE);
+        ui.removeCallbacks(caretBlinkRunnable);
+        ui.postDelayed(caretBlinkRunnable, 500);
+    }
+
+    private void stopCaretBlink() {
+        ui.removeCallbacks(caretBlinkRunnable);
+        if (caretView != null) {
+            caretView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -959,6 +1058,12 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
         if (chinese && (rimeComposing || composing.length() > 0)) {
             // 输入中的拼音只显示为左上角小标签，下方区域全部留给候选词
             inputRow.setVisibility(View.GONE);
+            stopCaretBlink();
+            // 输入框隐藏后候选从左侧开始；把之前的横向滚动归零，
+            // 否则长文本滚动后候选会被留在可视区域之外，看起来像“打不了字”。
+            if (fieldScroll != null) {
+                fieldScroll.scrollTo(0, 0);
+            }
             String tag;
             if (rimeComposing) {
                 tag = rimeTagText();
@@ -995,6 +1100,7 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
             afterText.setTextColor(0xFFF2F2F2);
         }
         caretView.setVisibility(View.VISIBLE);
+        startCaretBlink();
         scrollReadoutToCaret();
     }
 
@@ -1081,16 +1187,17 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
     }
 
     /**
-     * 相对移动光标。优先使用 ExtractedText + setSelection（瞬时、无按键音）；
+     * 相对移动光标，返回实际移动的字符数（供滑轨贴边/累积使用）。
+     * 优先使用 ExtractedText + setSelection（瞬时、无按键音）；
      * 编辑器不支持时退回 DPAD 左右键事件。
      */
-    private void moveCaretBy(int delta) {
+    private int moveCaretBy(int delta) {
         if (delta == 0) {
-            return;
+            return 0;
         }
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) {
-            return;
+            return 0;
         }
         try {
             ExtractedTextRequest request = new ExtractedTextRequest();
@@ -1102,23 +1209,29 @@ public class QuestImeService extends InputMethodService implements KeyboardView.
                 int selection = base + extracted.selectionStart;
                 int target = Math.max(base, Math.min(base + extracted.text.length(),
                         selection + delta));
-                if (target != selection) {
-                    ic.setSelection(target, target);
+                if (target == selection) {
+                    Log.d(TAG, "caret at boundary selection=" + selection + " delta=" + delta);
+                    return 0;
                 }
+                ic.setSelection(target, target);
                 Log.d(TAG, "caret selection=" + selection + " target=" + target
-                        + " delta=" + delta);
-                return;
+                        + " moved=" + (target - selection) + " delta=" + delta);
+                return target - selection;
             }
         } catch (Throwable t) {
             Log.w(TAG, "getExtractedText/setSelection failed", t);
         }
         int keyCode = delta > 0 ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT;
         int steps = Math.min(Math.abs(delta), 128);
+        if (steps == 0) {
+            return 0;
+        }
         for (int i = 0; i < steps; i++) {
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
             ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode));
         }
         Log.d(TAG, "caret dpad key=" + keyCode + " steps=" + steps);
+        return delta > 0 ? steps : -steps;
     }
 
     private String rimeTagText() {

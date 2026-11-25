@@ -163,10 +163,13 @@ adb shell ime set com.questcn.ime/.QuestImeService
 
 - **键盘 UI**：`KeyboardView` 自绘按键、圆角、图标、按下/悬停态；布局来自
   `res/xml/keyboard_qwerty.xml` 与 `keyboard_symbols*.xml`
-- **光标输入框 / 空格拖动**：状态栏用“光标前文字 + 竖线光标 + 光标后文字”镜像宿主
+- **光标输入框 / 空格拖动**：状态栏用“光标前文字 + 闪烁竖线 + 光标后文字”镜像宿主
   文本框；点击文字通过 `InputConnection.setSelection`（不支持时退回 DPAD 键事件）
   定位光标。长按空格 340ms 弹出 `CursorScrubberView`，左右拖动时白球跟随手指，
-  每 8dp 移动一个字符，松手后不插入空格；拼音组合输入期间不进入该模式。
+  每 8dp 移动一个字符；滑轨贴到最左/最右后每 80ms 继续移动一个字符，直到文本
+  头/尾。松手后不插入空格；拼音组合输入期间不进入该模式。
+- **候选条**：组合输入时输入框隐藏，候选条从左侧重新排布（不会继承状态栏的横向
+  滚动位置）；选完候选后输入框回到光标位置。
 - **IME**：`QuestImeService` 继承 `InputMethodService`，通过
   `InputConnection.setComposingText/commitText` 与宿主交互
 - **Rime**：`RimeCore` 单例负责复制 assets、首次 deploy、会话/候选/上屏；
